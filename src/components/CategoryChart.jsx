@@ -1,0 +1,57 @@
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, CartesianGrid } from "recharts";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+export default function CategoryChart({ data }) {
+  const chartData = data.map(item => ({
+    name: item.creditName.length > 20 ? item.creditName.slice(0, 20) + "..." : item.creditName,
+    fullName: item.creditName,
+    CapEx: parseFloat((item.capex.hard + item.capex.soft).toFixed(2)),
+    OpEx: parseFloat(item.opex.yearImpact.toFixed(2))
+  }));
+
+  const CustomTooltip = ({ active, payload }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="p-4 bg-white shadow-lg rounded-lg border border-gray-200">
+          <p className="font-semibold text-gray-800 mb-2">{payload[0].payload.fullName}</p>
+          <p className="text-indigo-600">CapEx: {payload[0].value}%</p>
+          <p className="text-emerald-600">OpEx: {payload[1].value}%</p>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  return (
+    <Card className="shadow-xl rounded-2xl bg-white">
+      <CardHeader>
+        <CardTitle className="text-lg font-bold text-gray-800">
+          Project Cost Analysis
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <ResponsiveContainer width="100%" height={400}>
+          <BarChart data={chartData} barCategoryGap="25%">
+            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+            <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+            <YAxis tick={{ fontSize: 12 }} />
+            <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(0,0,0,0.05)" }} />
+            <Legend verticalAlign="top" align="right" wrapperStyle={{ fontSize: 13 }} />
+            <defs>
+              <linearGradient id="capexGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#6366f1" />
+                <stop offset="100%" stopColor="#818cf8" />
+              </linearGradient>
+              <linearGradient id="opexGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#22c55e" />
+                <stop offset="100%" stopColor="#4ade80" />
+              </linearGradient>
+            </defs>
+            <Bar dataKey="CapEx" fill="url(#capexGradient)" radius={[10, 10, 0, 0]} />
+            <Bar dataKey="OpEx" fill="url(#opexGradient)" radius={[10, 10, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
+      </CardContent>
+    </Card>
+  );
+}
