@@ -1,7 +1,7 @@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, CartesianGrid } from "recharts";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 
-export default function CategoryChart({ data }) {
+export default function CategoryChart({ data, height = 400 }) {
   const chartData = data.map(item => ({
     name: item.creditName.length > 20 ? item.creditName.slice(0, 20) + "..." : item.creditName,
     fullName: item.creditName,
@@ -23,15 +23,14 @@ export default function CategoryChart({ data }) {
   };
 
   return (
-    <Card className="shadow-xl rounded-2xl bg-white">
-      <CardHeader>
-        <CardTitle className="text-lg font-bold text-gray-800">
-          Project Cost Analysis
-        </CardTitle>
+    <Card className="shadow-lg rounded-xl bg-white w-full">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-lg font-bold text-gray-800">Project Cost Analysis</CardTitle>
       </CardHeader>
-      <CardContent>
-        <ResponsiveContainer width="100%" height={400}>
-          <BarChart data={chartData} barCategoryGap="25%">
+      {/* Remove default padding, make chart full width */}
+      <div className="w-full h-full px-4">
+        <ResponsiveContainer width="100%" height={height}>
+          <BarChart data={chartData} barCategoryGap="20%">
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
             <XAxis dataKey="name" tick={{ fontSize: 12 }} />
             <YAxis tick={{ fontSize: 12 }} />
@@ -51,7 +50,7 @@ export default function CategoryChart({ data }) {
             <Bar dataKey="OpEx" fill="url(#opexGradient)" radius={[10, 10, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
-      </CardContent>
+      </div>
     </Card>
   );
 }
