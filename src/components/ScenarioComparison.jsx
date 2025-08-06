@@ -4,10 +4,11 @@ import { X } from "lucide-react";
 import ComparisonDashboard from "./ComparisonDashboard";
 
 export default function ScenarioComparison({ open, onClose, baselineData, optimizedData }) {
+  const hasData = baselineData?.length && optimizedData?.length;
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="w-full max-w-[95vw] xl:max-w-[85vw] h-[95vh] p-0 rounded-lg">
-        {/* Header */}
         <DialogHeader className="flex justify-between items-center px-6 py-4 border-b bg-gray-50 sticky top-0 z-10">
           <DialogTitle className="text-2xl font-bold text-gray-800">Scenario Comparison</DialogTitle>
           <button 
@@ -19,9 +20,8 @@ export default function ScenarioComparison({ open, onClose, baselineData, optimi
           </button>
         </DialogHeader>
 
-        {/* Content */}
         <div className="h-[calc(100%-73px)] overflow-auto p-6 bg-white">
-          {baselineData?.length && optimizedData?.length ? (
+          {hasData ? (
             <ComparisonDashboard baselineData={baselineData} optimizedData={optimizedData} />
           ) : (
             <div className="flex flex-col items-center justify-center h-full text-gray-500 space-y-2">

@@ -2,12 +2,19 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, Cart
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function CategoryChart({ data, height = 400 }) {
-  const chartData = data.map(item => ({
-    name: item.creditName.length > 20 ? item.creditName.slice(0, 20) + "..." : item.creditName,
-    fullName: item.creditName,
-    CapEx: parseFloat((item.capex.hard + item.capex.soft).toFixed(2)),
-    OpEx: parseFloat(item.opex.yearImpact.toFixed(2))
-  }));
+  const chartData = (data || []).map(item => {
+    const hard = item?.capex?.hard ?? 0;
+    const soft = item?.capex?.soft ?? 0;
+    const opex = item?.opex?.yearImpact ?? 0;
+
+    return {
+      name: item.creditName?.length > 20 ? item.creditName.slice(0, 20) + "..." : item.creditName || "N/A",
+      fullName: item.creditName || "Unnamed Credit",
+      CapEx: parseFloat((hard + soft).toFixed(2)),
+      OpEx: parseFloat(opex.toFixed(2)),
+    };
+  });
+
 
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {

@@ -3,62 +3,99 @@ import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { leedData } from "../data"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
-import { TrendingUp, TrendingDown, DollarSign, Leaf, Building, Zap } from "lucide-react"
+import { TrendingUp, TrendingDown, DollarSign, Leaf, Building, Zap, PercentCircle } from "lucide-react"
 import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from "recharts"
 
 function AnimatedNumber({ value, duration = 1 }) {
-  const [display, setDisplay] = useState(0)
+  const [display, setDisplay] = useState(0);
   useEffect(() => {
-    let start = 0
-    const step = value / (duration * 60)
+    let start = 0;
+    const step = value / (duration * 60);
     const interval = setInterval(() => {
-      start += step
+      start += step;
       if (start >= value) {
-        clearInterval(interval)
-        start = value
+        clearInterval(interval);
+        start = value;
       }
-      setDisplay(start)
-    }, 1000 / 60)
-    return () => clearInterval(interval)
-  }, [value, duration])
-  return <>{display.toFixed(2)}</>
+      setDisplay(start);
+    }, 1000 / 60);
+    return () => clearInterval(interval);
+  }, [value, duration]);
+  return <>{display.toFixed(2)}</>;
 }
 
 export default function Summary() {
-  const totalCredits = leedData.length
-  const totalCapex = leedData.reduce((sum, d) => sum + (d.capex.hard + d.capex.soft), 0)
-  const totalOpexImpact = leedData.reduce((sum, d) => sum + d.opex.impact10Yr, 0)
-  const totalAssetValue = leedData.reduce((sum, d) => sum + d.asset, 0)
+  // const totalCredits = leedData.length;
+  const totalCredits = leedData.reduce((sum, d) => sum + (d.credits || 0), 0);
+
+  const totalCapex = leedData.reduce(
+    (sum, d) => sum + (d?.hard ?? 0) + (d?.soft ?? 0),
+    0
+  );
+
+  const totalOpexImpact = leedData.reduce(
+     (sum, d) => sum + (d.budget10YrImpact || 0),
+      0
+  );
+  console.log("Total Opex Impact:", totalOpexImpact);
+
+  const totalAssetValue = leedData.reduce(
+    (sum, d) => sum + (d?.valuePremium ?? 0),
+    0
+  );
 
   const categoryStats = leedData.reduce((acc, item) => {
-    if (!acc[item.category]) acc[item.category] = { count: 0, capex: 0, opex: 0 }
-    acc[item.category].count++
-    acc[item.category].capex += item.capex.hard + item.capex.soft
-    acc[item.category].opex += item.opex.impact10Yr
-    return acc
-  }, {})
+    const category = item?.category || "Uncategorized";
+    if (!acc[category])
+      acc[category] = { count: 0, capex: 0, opex: 0 };
+
+    acc[category].count += 1;
+    acc[category].capex += (item?.hard ?? 0) + (item?.soft ?? 0);
+    acc[category].opex += item?.budget10YrImpact ?? 0;
+
+    return acc;
+  }, {});
 
   const verdictStats = leedData.reduce((acc, item) => {
-    acc[item.verdict] = (acc[item.verdict] || 0) + 1
-    return acc
-  }, {})
+    const verdict = item?.commercialLabel || "Unknown";
+    acc[verdict] = (acc[verdict] || 0) + 1;
+    return acc;
+  }, {});
 
-  const positiveImpactCredits = leedData.filter((d) => d.opex.impact10Yr < 0).length
-  const positiveImpactPercentage = (positiveImpactCredits / totalCredits) * 100
+  const positiveImpactCredits = leedData.filter(
+    (d) => d?.budget10YrImpact < 0
+  ).length;
+
+  const positiveImpactPercentage =
+    (positiveImpactCredits / totalCredits) * 100;
 
   const formatCurrency = (value) => {
-    const absValue = Math.abs(value)
-    return absValue >= 1 ? `$${value.toFixed(2)}M` : `$${(value * 1000).toFixed(0)}K`
-  }
+    return `${value.toFixed(2)}%`;
+  };
 
-  const verdictData = Object.entries(verdictStats).map(([verdict, count]) => ({ name: verdict, value: count }))
-  const categoryData = Object.entries(categoryStats).map(([category, stats]) => ({
-    name: category,
-    value: stats.count
-  }))
-  const COLORS = ["#16a34a", "#2563eb", "#f59e0b", "#dc2626", "#7c3aed", "#6b7280"]
+  const verdictData = Object.entries(verdictStats).map(
+    ([verdict, count]) => ({
+      name: verdict,
+      value: count
+    })
+  );
+
+  const categoryData = Object.entries(categoryStats).map(
+    ([category, stats]) => ({
+      name: category,
+      value: stats.count
+    })
+  );
+
+  const COLORS = [
+    "#16a34a",
+    "#2563eb",
+    "#f59e0b",
+    "#dc2626",
+    "#7c3aed",
+    "#6b7280"
+  ];
 
   return (
     <div className="container mx-auto p-6 space-y-10">
@@ -73,10 +110,11 @@ export default function Summary() {
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
-          { title: "Total Credits", value: totalCredits, icon: <Building />, color: "text-slate-700", subtitle: "Across 6 categories" },
-          { title: "Total CapEx", value: totalCapex, icon: <DollarSign />, color: "text-amber-600", subtitle: "Initial investment" },
-          { title: "10-Year OpEx Impact", value: totalOpexImpact, icon: totalOpexImpact < 0 ? <TrendingDown /> : <TrendingUp />, color: totalOpexImpact < 0 ? "text-green-600" : "text-red-600", subtitle: totalOpexImpact < 0 ? "Cost savings" : "Additional costs" },
-          { title: "Asset Value Impact", value: totalAssetValue, icon: <TrendingUp />, color: "text-blue-600", subtitle: "Estimated value increase" }
+          { title: "Total Credits", value: totalCredits, icon: <Building />, color: "text-slate-700", subtitle: "Across multiple categories" },
+          { title: "Total CapEx", value: totalCapex, icon: <PercentCircle />, color: "text-amber-600", subtitle: "Initial impact (%)" },
+          { title: "10-Year OpEx Impact", value: totalOpexImpact, icon: totalOpexImpact < 0 ? <TrendingDown /> : <TrendingUp />, color: totalOpexImpact < 0 ? "text-green-600" : "text-red-600", subtitle: totalOpexImpact < 0 ? "Savings %" : "Extra cost %" },
+          { title: "Asset Value Impact", value: totalAssetValue, icon: <TrendingUp />, color: "text-blue-600", subtitle: "Estimated value %" }
+
         ].map((card, idx) => (
           <motion.div key={idx} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }}>
             <Card className="border-0 shadow-md hover:shadow-lg transition-all duration-200 hover:scale-[1.02] bg-gradient-to-br from-white to-slate-50">
@@ -133,7 +171,7 @@ export default function Summary() {
               {/* Net Position */}
               <div className="space-y-3 p-4 rounded-xl bg-slate-50 hover:shadow-md transition">
                 <span className="text-sm font-medium flex items-center gap-2">
-                  <DollarSign className="h-4 w-4 text-blue-600" /> Net Financial Position
+                  <PercentCircle className="h-4 w-4 text-blue-600" /> Net Financial Position
                 </span>
                 <div
                   className={`text-3xl font-bold ${(totalOpexImpact + totalAssetValue - totalCapex) < 0 ? "text-green-600" : "text-red-600"} animate-pulse`}
