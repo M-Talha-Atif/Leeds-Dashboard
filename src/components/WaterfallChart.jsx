@@ -83,20 +83,7 @@ export default function WaterfallChart({ totals }) {
         </span>
       </h3>
 
-      <div className="flex justify-between mb-4">
-        <div className="text-center">
-          <p className="text-sm text-gray-600">Eur. IRR</p>
-          <p className="text-xl font-bold">12.3%</p>
-        </div>
-        <div className="text-center">
-          <p className="text-sm text-gray-600">Eur. NPV (B AED)</p>
-          <p className="text-xl font-bold">9.00</p>
-        </div>
-        <div className="text-center">
-          <p className="text-sm text-gray-600">Average</p>
-          <p className="text-xl font-bold">-</p>
-        </div>
-      </div>
+  
 
       <ResponsiveContainer width="100%" height={400}>
         <BarChart
@@ -168,20 +155,6 @@ export default function WaterfallChart({ totals }) {
         </BarChart>
       </ResponsiveContainer>
 
-      <div className="mt-6 grid grid-cols-3 gap-4 text-center">
-        <div>
-          <p className="text-sm text-gray-600">Initial Investment</p>
-          <p className="text-lg font-bold">AED 27.00 B</p>
-        </div>
-        <div>
-          <p className="text-sm text-gray-600">Year 1</p>
-          <p className="text-lg font-bold">AED 0 -20.00 B</p>
-        </div>
-        <div>
-          <p className="text-sm text-gray-600">Year 8</p>
-          <p className="text-lg font-bold">AED 8 -40.00 B</p>
-        </div>
-      </div>
 
       <div className="mt-4 flex flex-wrap justify-center gap-4">
         {Object.entries({
