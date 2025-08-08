@@ -7,161 +7,197 @@ import {
   CartesianGrid,
   Tooltip,
   LabelList,
+  ReferenceLine,
+  Cell
 } from "recharts";
 
 export default function WaterfallChart({ totals }) {
-  // Color scheme
+  // Updated color scheme to match financial waterfall
   const colors = {
-    hard: "#4f46e5",       // Indigo-600
-    soft: "#059669",       // Emerald-600
-    budgetYear: "#4338ca", // Indigo-700
-    impact: "#7c3aed",     // Violet-600
-    positive: "#10b981",   // Emerald-500
-    negative: "#ef4444",   // Red-500
+    initial: "#4f46e5",       // Indigo-600 (initial investment)
+    cost: "#ef4444",          // Red-600 (costs)
+    benefit: "#10b981",       // Green-600 (benefits)
+    cumulative: "#3b82f6",    // Blue-500 (cumulative line)
   };
 
-  // Prepare data
+  // Prepare data in cumulative waterfall format
   const data = [
-    {
-      name: "Hard Cost",
+    { 
+      name: "Initial Position", 
+      value: 0,
+      fill: colors.initial,
+      isCumulative: true
+    },
+    { 
+      name: "Hard Cost", 
       value: totals.hard,
-      fill: colors.hard,
-      description: "Initial construction costs",
+      fill: colors.cost,
+      isCumulative: false
     },
-    {
-      name: "Soft Cost",
+    { 
+      name: "Soft Cost", 
       value: totals.soft,
-      fill: colors.soft,
-      description: "Design and certification costs",
+      fill: colors.cost,
+      isCumulative: false
     },
-    {
-      name: "1-Year Impact",
+    { 
+      name: "1-Year Impact", 
       value: totals.budget1,
-      fill: colors.budgetYear,
-      description: "First year operational impact",
+      fill: totals.budget1 >= 0 ? colors.benefit : colors.cost,
+      isCumulative: false
     },
-    {
-      name: "10-Year Impact",
+    { 
+      name: "10-Year Impact", 
       value: totals.budget10,
-      fill: colors.impact,
-      description: "Projected operational savings",
+      fill: totals.budget10 >= 0 ? colors.benefit : colors.cost,
+      isCumulative: false
     },
-    {
-      name: "LEED Position",
+    { 
+      name: "Final Position", 
       value: totals.position,
-      fill: totals.position >= 0 ? colors.positive : colors.negative,
-      description:
-        totals.position >= 0 ? "Net positive ROI" : "Net cost position",
-    },
+      fill: totals.position >= 0 ? colors.benefit : colors.cost,
+      isCumulative: true
+    }
   ];
+
+  // Calculate cumulative values
+  let cumulativeValue = 0;
+  const processedData = data.map((item) => {
+    if (!item.isCumulative) {
+      cumulativeValue += item.value;
+    } else {
+      cumulativeValue = item.value;
+    }
+    return {
+      ...item,
+      cumulative: cumulativeValue
+    };
+  });
 
   return (
     <div className="bg-white shadow rounded-lg p-4">
       <h3 className="text-lg font-semibold text-slate-700 mb-4">
-        LEED Cost-Benefit Waterfall
+        Financial Waterfall (Cumulative Cash Flow)
         <span className="ml-2 text-sm font-normal text-gray-500">
-          (10-year projection)
+          Visualizing project returns over time
         </span>
       </h3>
 
+      <div className="flex justify-between mb-4">
+        <div className="text-center">
+          <p className="text-sm text-gray-600">Eur. IRR</p>
+          <p className="text-xl font-bold">12.3%</p>
+        </div>
+        <div className="text-center">
+          <p className="text-sm text-gray-600">Eur. NPV (B AED)</p>
+          <p className="text-xl font-bold">9.00</p>
+        </div>
+        <div className="text-center">
+          <p className="text-sm text-gray-600">Average</p>
+          <p className="text-xl font-bold">-</p>
+        </div>
+      </div>
+
       <ResponsiveContainer width="100%" height={400}>
         <BarChart
-          data={data}
-          layout="vertical"
-          barSize={50}
-          margin={{ top: 20, right: 30, bottom: 20, left: 120 }}
+          data={processedData}
+          margin={{ top: 20, right: 30, left: 20, bottom: 40 }}
+          barGap={0}
+          barCategoryGap={0}
         >
-          <CartesianGrid strokeDasharray="3 3" horizontal stroke="#f3f4f6" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
+          <XAxis 
+            dataKey="name" 
+            tick={{ fill: "#6b7280", fontSize: 12 }}
+            axisLine={false}
+            tickLine={false}
+          />
           <YAxis
-            dataKey="name"
-            type="category"
-            tick={{ fill: "#6b7280", fontSize: 12 }}
-            axisLine={false}
-            tickLine={false}
-            width={120}
-          />
-          <XAxis
-            type="number"
-            domain={["dataMin - 10", "dataMax + 10"]}
-            tickFormatter={(value) => `${value.toFixed(2)}%`}  // << FIXED
+            tickFormatter={(value) => `${value.toFixed(2)}%`}
             tick={{ fill: "#6b7280", fontSize: 12 }}
             axisLine={false}
             tickLine={false}
           />
-
+          
+          <ReferenceLine y={0} stroke="#6b7280" strokeWidth={1} />
+          
           <Tooltip
-            formatter={(value, name, props) => {
-              const item = props.payload;
-              const sign = value >= 0 ? "+" : "-";
-              return [`${sign}${Math.abs(value).toFixed(2)}%`, item.name]; // << FIXED
-            }}
             content={({ active, payload }) => {
               if (!active || !payload?.length) return null;
               const data = payload[0].payload;
               return (
                 <div className="bg-white p-3 shadow-lg rounded-lg border border-gray-200">
                   <p className="font-semibold">{data.name}</p>
-                  <p className="text-sm text-gray-600">{data.description}</p>
-                  <p
-                    className={`mt-1 font-bold ${data.value >= 0 ? "text-green-600" : "text-red-600"
-                      }`}
-                  >
-                    {data.value >= 0 ? "+" : "-"}
-                    {Math.abs(data.value).toFixed(2)}%
+                  <p className={`mt-1 font-bold ${
+                    data.value >= 0 ? "text-green-600" : "text-red-600"
+                  }`}>
+                    {data.value >= 0 ? "+" : ""}{data.value.toFixed(2)}%
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Cumulative: {data.cumulative.toFixed(2)}%
                   </p>
                 </div>
               );
             }}
           />
 
-          <Bar
-            dataKey="value"
-            radius={[0, 4, 4, 0]}
-            label={{
-              position: "right",
-              formatter: (val) =>
-                `${val >= 0 ? "+" : "-"}${Math.abs(val).toFixed(2)}%`, // << FIXED
-              fill: "#374151",
-              fontSize: 12,
-            }}
-            shape={(props) => {
-              const { x, y, width, height, payload } = props;
-              return (
-                <rect
-                  x={width < 0 ? x + width : x}
-                  y={y}
-                  width={Math.abs(width)}
-                  height={height}
-                  rx={4}
-                  ry={4}
-                  fill={payload.fill}
-                />
-              );
-            }}
-          />
+          <Bar dataKey="value">
+            {processedData.map((entry, index) => (
+              <Cell 
+                key={`cell-${index}`} 
+                fill={entry.fill}
+                stroke={entry.isCumulative ? colors.cumulative : undefined}
+                strokeWidth={entry.isCumulative ? 2 : 0}
+              />
+            ))}
+            <LabelList
+              dataKey="value"
+              position="top"
+              formatter={(value) => `${value >= 0 ? "+" : ""}${value.toFixed(2)}%`}
+              fill="#374151"
+              fontSize={12}
+            />
+            <LabelList
+              dataKey="cumulative"
+              position="bottom"
+              formatter={(value) => `${value.toFixed(2)}%`}
+              fill={colors.cumulative}
+              fontSize={12}
+            />
+          </Bar>
         </BarChart>
       </ResponsiveContainer>
 
-      {/* Legend */}
+      <div className="mt-6 grid grid-cols-3 gap-4 text-center">
+        <div>
+          <p className="text-sm text-gray-600">Initial Investment</p>
+          <p className="text-lg font-bold">AED 27.00 B</p>
+        </div>
+        <div>
+          <p className="text-sm text-gray-600">Year 1</p>
+          <p className="text-lg font-bold">AED 0 -20.00 B</p>
+        </div>
+        <div>
+          <p className="text-sm text-gray-600">Year 8</p>
+          <p className="text-lg font-bold">AED 8 -40.00 B</p>
+        </div>
+      </div>
+
       <div className="mt-4 flex flex-wrap justify-center gap-4">
-        {["hard", "soft", "budgetYear", "impact", "positive", "negative"].map(
-          (type) => (
-            <div key={type} className="flex items-center">
-              <div
-                className="w-3 h-3 rounded-full mr-2"
-                style={{ backgroundColor: colors[type] }}
-              />
-              <span className="text-xs text-gray-600 capitalize">
-                {type === "hard" && "Hard Costs"}
-                {type === "soft" && "Soft Costs"}
-                {type === "budgetYear" && "1-Year Impact"}
-                {type === "impact" && "10-Year Impact"}
-                {type === "positive" && "Positive Position"}
-                {type === "negative" && "Negative Position"}
-              </span>
-            </div>
-          )
-        )}
+        {Object.entries({
+          initial: "Initial Investment",
+          cost: "Costs",
+          benefit: "Benefits",
+          cumulative: "Cumulative Flow"
+        }).map(([key, label]) => (
+          <div key={key} className="flex items-center">
+            <div
+              className="w-3 h-3 rounded-full mr-2"
+              style={{ backgroundColor: colors[key] }}
+            />
+            <span className="text-xs text-gray-600">{label}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
