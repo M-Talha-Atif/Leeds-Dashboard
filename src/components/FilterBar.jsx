@@ -3,8 +3,10 @@ import { ChevronDown } from "lucide-react";
 
 export default function FilterBar({ categories, onCategoryChange, onScenarioChange }) {
   const scenarios = ["All", "Baseline Best Practice", "LEED-Induced"];
-  const [selectedScenario, setSelectedScenario] = useState("All");
-  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+
+  // Start with nothing selected
+  const [selectedScenario, setSelectedScenario] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
@@ -27,9 +29,13 @@ export default function FilterBar({ categories, onCategoryChange, onScenarioChan
             onChange={handleCategoryChange}
             className="w-64 p-3 pr-10 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 appearance-none transition"
           >
-            {categories.map((cat, idx) => (
-              <option key={idx} value={cat}>{cat}</option>
-            ))}
+            <option value="">-- Select Category --</option>
+            <option value="All Categories">All Categories</option>
+            {categories
+              .filter((cat) => cat !== "All Categories")
+              .map((cat, idx) => (
+                <option key={idx} value={cat}>{cat}</option>
+              ))}
           </select>
           <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" size={18} />
         </div>
@@ -44,6 +50,7 @@ export default function FilterBar({ categories, onCategoryChange, onScenarioChan
             onChange={handleScenarioChange}
             className="w-64 p-3 pr-10 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400 appearance-none transition"
           >
+            <option value="">-- Select Scenario --</option>
             {scenarios.map((sc, idx) => (
               <option key={idx} value={sc}>{sc}</option>
             ))}

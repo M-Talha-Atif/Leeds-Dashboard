@@ -7,6 +7,8 @@ import { leedData } from "../data";
 import ScenarioComparison from "../components/ScenarioComparison";
 import MethodologyModal from "../components/MethodologyModal";
 import { Switch } from "@headlessui/react";
+import FinancialSummary from "../components/FinancialSummary";
+import PerformanceInsights from "../components/PerformanceInsights";
 
 export default function Dashboard() {
   const categories = [
@@ -15,42 +17,65 @@ export default function Dashboard() {
   ];
 
   // State management
-  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
-  const [scenarioFilter, setScenarioFilter] = useState("All");
-  const [targetFilter, setTargetFilter] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [scenarioFilter, setScenarioFilter] = useState("");
+  const [targetFilter, setTargetFilter] = useState("");
   const [comparisonOpen, setComparisonOpen] = useState(false);
   const [methodologyOpen, setMethodologyOpen] = useState(false);
-  const [showCommercial, setShowCommercial] = useState(true);
+  const [showCommercial, setShowCommercial] = useState(false);
 
   // Track active credits (all enabled by default)
   const [activeCredits, setActiveCredits] = useState(() =>
-    leedData.reduce((acc, item) => ({ ...acc, [item.creditName]: true }), {})
+    leedData.reduce((acc, item) => ({ ...acc, [item.creditName]: false }), {})
   );
 
   // Filter data based on category, scenario, and target (show all cards)
   const filteredCards = useMemo(() => {
-    return selectedCategory === "Overall Data"
-      ? leedData
-      : leedData.filter(
-          (d) =>
-            (selectedCategory === "All Categories" ||
-              d.category === selectedCategory) &&
-            (scenarioFilter === "All" || d.leedOrBau === scenarioFilter) &&
-            (targetFilter === "All" || d.target === targetFilter)
-        );
+    return leedData.filter(
+      (d) =>
+        (!selectedCategory || selectedCategory === "All Categories" || d.category === selectedCategory) &&
+        (!scenarioFilter || scenarioFilter === "All" || d.leedOrBau === scenarioFilter) &&
+        (!targetFilter || targetFilter === "All" || d.target === targetFilter)
+    );
   }, [selectedCategory, scenarioFilter, targetFilter]);
+
+
 
   // Calculate totals only for active credits
   const totals = useMemo(() => {
     const activeItems = filteredCards.filter(item => activeCredits[item.creditName]);
-    
+
+    // New: Total credits
+    const totalCredits = activeItems.reduce((sum, d) => sum + (d.credits || 0), 0);
+
     const hard = activeItems.reduce((sum, d) => sum + (d.hard || 0), 0);
     const soft = activeItems.reduce((sum, d) => sum + (d.soft || 0), 0);
     const opex = activeItems.reduce((sum, d) => sum + (d.opexCosts || 0), 0);
-    const budget1 = activeItems.reduce((sum, d) => sum + (d.budgetYearImpact || 0), 0);
+    const budget1 = hard + soft + opex;
     const budget10 = activeItems.reduce((sum, d) => sum + (d.budget10YrImpact || 0), 0);
     const position = activeItems.reduce((sum, d) => sum + (d.position || 0), 0);
     const total = hard + soft;
+
+    const totalCapex = hard + soft;
+    
+    const totalOpexImpact = activeItems.reduce(
+      (sum, d) => sum + (d.budget10YrImpact || 0),
+      0
+    );
+    const totalAssetValue = activeItems.reduce(
+      (sum, d) => sum + (d?.valuePremium ?? 0),
+      0
+    );
+
+    // Counts how many items have a negative budget10YrImpact
+    //  (interpreted as "positive impact" for the business, since reducing costs is favorable
+    const positiveImpactCredits = activeItems.filter(
+      (d) => d?.budget10YrImpact < 0
+    ).length;
+    const positiveImpactPercentage = totalCredits
+      ? (positiveImpactCredits / totalCredits) * 100
+      : 0;
+
 
     return {
       hard,
@@ -60,6 +85,12 @@ export default function Dashboard() {
       budget1,
       budget10,
       position,
+      totalCapex,
+      totalOpexImpact,
+      totalAssetValue,
+      totalCredits,
+      positiveImpactCredits,
+      positiveImpactPercentage,
       hardPct: total ? (hard / total) * 100 : 0,
       softPct: total ? (soft / total) * 100 : 0,
       impactPct: total ? (budget10 / total) * 100 : 0,
@@ -81,10 +112,6 @@ export default function Dashboard() {
   );
   const optimizedData = leedData.filter((d) => d.leedOrBau === "LEED-Induced");
 
-  // Calculate total credits for active filtered items
-  const totalCredits = filteredCards
-    .filter(item => activeCredits[item.creditName])
-    .reduce((sum, d) => sum + (d.credits || 0), 0);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -111,14 +138,12 @@ export default function Dashboard() {
               <Switch
                 checked={showCommercial}
                 onChange={setShowCommercial}
-                className={`${
-                  showCommercial ? "bg-blue-600" : "bg-gray-300"
-                } relative inline-flex h-6 w-11 items-center rounded-full`}
+                className={`${showCommercial ? "bg-blue-600" : "bg-gray-300"
+                  } relative inline-flex h-6 w-11 items-center rounded-full`}
               >
                 <span
-                  className={`${
-                    showCommercial ? "translate-x-6" : "translate-x-1"
-                  } inline-block h-4 w-4 transform bg-white rounded-full transition`}
+                  className={`${showCommercial ? "translate-x-6" : "translate-x-1"
+                    } inline-block h-4 w-4 transform bg-white rounded-full transition`}
                 />
               </Switch>
               <span className="text-sm text-gray-700">Show Commercial Info</span>
@@ -135,6 +160,7 @@ export default function Dashboard() {
                 onChange={(e) => setTargetFilter(e.target.value)}
                 className="border border-gray-300 rounded-md px-2 py-1 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
               >
+                <option value="">-- Select Scenario --</option>
                 <option value="All">All</option>
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
@@ -157,59 +183,64 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Total Credits Display */}
-        <div className="mb-4 text-sm text-gray-700 font-medium">
-          Target Credits: <span className="font-bold text-indigo-700">{totalCredits}</span>
+        {/* Performance Insights */}
+
+        <div className="mb-8">
+          <PerformanceInsights
+            positiveImpactCredits={totals.positiveImpactCredits}
+            totalCredits={totals.totalCredits}
+            positiveImpactPercentage={totals.positiveImpactPercentage}
+            totalOpexImpact={totals.totalOpexImpact}
+            totalAssetValue={totals.totalAssetValue}
+            totalCapex={totals.totalCapex}
+            formatCurrency={(value) =>
+              value.toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD",
+                minimumFractionDigits: 0,
+              })
+            }
+          />
         </div>
 
         {/* Financial Summary Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
-          <div className="p-3 bg-blue-50 rounded-lg text-center shadow-sm">
-            <p className="text-sm text-slate-600">Hard Cost</p>
-            <p className="text-xl font-bold text-blue-600">
-              {totals.hard.toFixed(2)}% <span className="text-sm">({totals.hardPct.toFixed(1)}%)</span>
-            </p>
-          </div>
-          <div className="p-3 bg-green-50 rounded-lg text-center shadow-sm">
-            <p className="text-sm text-slate-600">Soft Cost</p>
-            <p className="text-xl font-bold text-green-600">
-              {totals.soft.toFixed(2)}% <span className="text-sm">({totals.softPct.toFixed(1)}%)</span>
-            </p>
-          </div>
-          <div className="p-3 bg-purple-50 rounded-lg text-center shadow-sm">
-            <p className="text-sm text-slate-600">OpEx Impact</p>
-            <p className="text-xl font-bold text-purple-600">
-              {totals.opex.toFixed(2)}%
-            </p>
-          </div>
-          <div className="p-3 bg-orange-50 rounded-lg text-center shadow-sm">
-            <p className="text-sm text-slate-600">Total Cost</p>
-            <p className="text-xl font-bold text-orange-600">
-              {totals.total.toFixed(2)}%
-            </p>
-          </div>
-          <div className="p-3 bg-indigo-50 rounded-lg text-center shadow-sm">
-            <p className="text-sm text-slate-600 flex items-center justify-center">
-              ELEV-X
-              <span className="ml-1 text-gray-400 cursor-help" title="10-Year Impact minus Total Costs">
-                ⓘ
-              </span>
-            </p>
-            <p className={`text-xl font-bold ${totals.position >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-              {totals.position.toFixed(2)}% <span className="text-sm">({totals.positionPct.toFixed(1)}%)</span>
-            </p>
-          </div>
-        </div>
+        <FinancialSummary totals={totals} />
+
+
 
         {/* Waterfall Chart Visualization */}
         <WaterfallChart totals={totals} />
 
+        <div className="flex justify-center gap-6 mb-6 mt-4" >
+          <button
+            onClick={() =>
+              setActiveCredits(prev =>
+                Object.fromEntries(Object.keys(prev).map(k => [k, true]))
+              )
+            }
+            className="px-5 py-2.5 bg-green-500 text-white font-semibold rounded-full shadow-md hover:bg-green-600 hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
+          >
+            Turn All On
+          </button>
+          <button
+            onClick={() =>
+              setActiveCredits(prev =>
+                Object.fromEntries(Object.keys(prev).map(k => [k, false]))
+              )
+            }
+            className="px-5 py-2.5 bg-red-500 text-white font-semibold rounded-full shadow-md hover:bg-red-600 hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
+          >
+            Turn All Off
+          </button>
+        </div>
+
+
         {/* LEED Credit Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
           {filteredCards.map((item, idx) => (
-            <Card 
+            <Card
               key={`${item.creditName}-${idx}`}
-              item={item} 
+              item={item}
               showCommercialData={showCommercial}
               isActive={activeCredits[item.creditName]}
               onToggle={() => toggleCredit(item.creditName)}

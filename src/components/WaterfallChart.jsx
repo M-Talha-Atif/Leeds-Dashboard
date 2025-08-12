@@ -20,40 +20,52 @@ export default function WaterfallChart({ totals }) {
     cumulative: "#3b82f6",    // Blue-500 (cumulative line)
   };
 
+  const isEmpty =
+    !totals ||
+    ["hard", "soft", "opex", "budget1", "budget10", "position"].every(
+      key => !totals[key] || totals[key] === 0
+    );
+
   // Prepare data in cumulative waterfall format
   const data = [
-    { 
-      name: "Initial Position", 
+    {
+      name: "Initial Position",
       value: 0,
       fill: colors.initial,
       isCumulative: true
     },
-    { 
-      name: "Hard Cost", 
+    {
+      name: "Hard",
       value: totals.hard,
-      fill: colors.cost,
+      fill: totals.hard >= 0 ? colors.benefit : colors.cost,
       isCumulative: false
     },
-    { 
-      name: "Soft Cost", 
+    {
+      name: "Soft",
       value: totals.soft,
-      fill: colors.cost,
+      fill: totals.soft >= 0 ? colors.benefit : colors.cost,
       isCumulative: false
     },
-    { 
-      name: "1-Year Impact", 
+    {
+      name: "Opex Costs",
+      value: totals.opex,
+      fill: totals.opex >= 0 ? colors.benefit : colors.cost,
+      isCumulative: false
+    },
+    {
+      name: "Budget 1-Year",
       value: totals.budget1,
       fill: totals.budget1 >= 0 ? colors.benefit : colors.cost,
       isCumulative: false
     },
-    { 
-      name: "10-Year Impact", 
+    {
+      name: "Budget 10-Year",
       value: totals.budget10,
       fill: totals.budget10 >= 0 ? colors.benefit : colors.cost,
       isCumulative: false
     },
-    { 
-      name: "Final Position", 
+    {
+      name: "Final Position",
       value: totals.position,
       fill: totals.position >= 0 ? colors.benefit : colors.cost,
       isCumulative: true
@@ -73,6 +85,32 @@ export default function WaterfallChart({ totals }) {
       cumulative: cumulativeValue
     };
   });
+  if (isEmpty) {
+    return (
+      <div className="bg-white shadow rounded-lg p-8 text-center text-gray-600">
+        <p className="text-lg font-semibold">No data to display</p>
+        <p className="mt-2 text-sm">
+          Please select a <span className="font-medium">Category</span>,{" "}
+          <span className="font-medium">Scenario</span>, and at least one{" "}
+          <span className="font-medium">Card</span> to view the chart.
+        </p>
+        <div className="mt-4 flex justify-center gap-2">
+          <button
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600"
+            onClick={() => alert("Open category selector")}
+          >
+            Select Category
+          </button>
+          <button
+            className="px-4 py-2 bg-green-500 text-white rounded-lg shadow hover:bg-green-600"
+            onClick={() => alert("Open scenario selector")}
+          >
+            Select Scenario
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white shadow rounded-lg p-4">
@@ -83,31 +121,52 @@ export default function WaterfallChart({ totals }) {
         </span>
       </h3>
 
-  
+
 
       <ResponsiveContainer width="100%" height={400}>
         <BarChart
           data={processedData}
-          margin={{ top: 20, right: 30, left: 20, bottom: 40 }}
-          barGap={0}
-          barCategoryGap={0}
+          margin={{ top: 20, right: 30, left: 20, bottom: 20 }} 
+          barGap={4}
+          barCategoryGap={40}
         >
           <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
-          <XAxis 
-            dataKey="name" 
-            tick={{ fill: "#6b7280", fontSize: 12 }}
+          <XAxis
+            dataKey="name"
+            interval={0} //  forces all labels to show
+            tick={({ x, y, payload }) => {
+              const words = payload.value.split(" ");
+              return (
+                <text
+                  x={x}
+                  y={y + 40} // push text a bit down
+                  textAnchor="middle"
+                  fill="#6b7280"
+                  fontSize={12}
+                  
+                >
+                  {words.map((word, index) => (
+                    <tspan key={index} x={x} dy={index === 0 ? 0 : 12}>
+                      {word}
+                    </tspan>
+                  ))}
+                </text>
+              );
+            }}
+            height={60} // give extra height for rotated labels
             axisLine={false}
             tickLine={false}
           />
+
           <YAxis
             tickFormatter={(value) => `${value.toFixed(2)}%`}
             tick={{ fill: "#6b7280", fontSize: 12 }}
             axisLine={false}
             tickLine={false}
           />
-          
+
           <ReferenceLine y={0} stroke="#6b7280" strokeWidth={1} />
-          
+
           <Tooltip
             content={({ active, payload }) => {
               if (!active || !payload?.length) return null;
@@ -115,9 +174,8 @@ export default function WaterfallChart({ totals }) {
               return (
                 <div className="bg-white p-3 shadow-lg rounded-lg border border-gray-200">
                   <p className="font-semibold">{data.name}</p>
-                  <p className={`mt-1 font-bold ${
-                    data.value >= 0 ? "text-green-600" : "text-red-600"
-                  }`}>
+                  <p className={`mt-1 font-bold ${data.value >= 0 ? "text-green-600" : "text-red-600"
+                    }`}>
                     {data.value >= 0 ? "+" : ""}{data.value.toFixed(2)}%
                   </p>
                   <p className="text-sm text-gray-600">
@@ -130,8 +188,8 @@ export default function WaterfallChart({ totals }) {
 
           <Bar dataKey="value">
             {processedData.map((entry, index) => (
-              <Cell 
-                key={`cell-${index}`} 
+              <Cell
+                key={`cell-${index}`}
                 fill={entry.fill}
                 stroke={entry.isCumulative ? colors.cumulative : undefined}
                 strokeWidth={entry.isCumulative ? 2 : 0}

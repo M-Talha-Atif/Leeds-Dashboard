@@ -26,7 +26,7 @@ export const leedData = [
     budgetYearImpact: -0.05,
     budget10YrImpact: -0.69,
     valuePremium: 0.00,
-    position: -0.64,
+    position: -0.69,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Low Additional CapEx",
     elevx: "✅ Net Positive Investment"
@@ -42,7 +42,7 @@ export const leedData = [
     budgetYearImpact: 0.10,
     budget10YrImpact: 0.10,
     valuePremium: 0.00,
-    position: 0.20,
+    position: 0.10,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "⚠️ Moderate CapEx – ROI Case Needed",
     elevx: "✅ Required – Certification Only"
@@ -58,7 +58,7 @@ export const leedData = [
     budgetYearImpact: 0.05,
     budget10YrImpact: 0.05,
     valuePremium: 0.00,
-    position: 0.10,
+    position: 0.05,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "✅ Low Additional CapEx",
     elevx: "✅ Required – Certification Only"
@@ -74,7 +74,7 @@ export const leedData = [
     budgetYearImpact: 0.80,
     budget10YrImpact: 1.44,
     valuePremium: 1.15,
-    position: 1.56,
+    position: 0.86,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "⚠️ Elevated CapEx – Strategic Review Required",
     elevx: "✅ Required – High Strategic Value"
@@ -90,7 +90,7 @@ export const leedData = [
     budgetYearImpact: 0.10,
     budget10YrImpact: 0.10,
     valuePremium: 0.20,
-    position: 0.10,
+    position: 0.00,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "⚠️ Moderate CapEx – ROI Case Needed",
     elevx: "⚠️ Minor Net Gain – Proceed if Strategically Aligned"
@@ -106,7 +106,7 @@ export const leedData = [
     budgetYearImpact: 0.05,
     budget10YrImpact: -0.27,
     valuePremium: 0.20,
-    position: -0.27,
+    position: -0.37,
     leedOrBau: "LEED-Induced",
     commercialLabel: "⚠️ Moderate CapEx – ROI Case Needed",
     elevx: "✅ Positive Outcome – Commercially Favourable"
@@ -122,7 +122,7 @@ export const leedData = [
     budgetYearImpact: 0.20,
     budget10YrImpact: -0.44,
     valuePremium: 0.20,
-    position: -0.24,
+    position: 0.54,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "⚠️ Moderate CapEx – ROI Case Needed",
     elevx: "✅ Positive Outcome – Commercially Favourable"
@@ -138,7 +138,7 @@ export const leedData = [
     budgetYearImpact: 1.00,
     budget10YrImpact: 0.36,
     valuePremium: 0.55,
-    position: 1.19,
+    position: 0.09,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "❌ High Cost – Needs Strong Strategic Rationale",
     elevx: "❌ High Cost – Strong Strategic Rationale Needed"
@@ -154,7 +154,7 @@ export const leedData = [
     budgetYearImpact: 0.30,
     budget10YrImpact: -0.02,
     valuePremium: 1.15,
-    position: -0.24,
+    position: -0.59,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "⚠️ Higher Cost, Requires ROI Justification",
     elevx: "✅ Positive Outcome – Commercially Favourable"
@@ -170,7 +170,7 @@ export const leedData = [
     budgetYearImpact: 1.00,
     budget10YrImpact: 0.68,
     valuePremium: 1.15,
-    position: 1.16,
+    position: 0.11,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "❌ High Cost – Needs Strong Strategic Rationale",
     elevx: "❌ High Cost – Strong Strategic Rationale Needed"
@@ -186,7 +186,7 @@ export const leedData = [
     budgetYearImpact: 0.55,
     budget10YrImpact: 1.19,
     valuePremium: 0.55,
-    position: 1.36,
+    position: 0.91,
     leedOrBau: "LEED-Induced",
     commercialLabel: "⚠️ Higher Cost, Requires ROI Justification",
     elevx: "❌ High Cost – Strong Strategic Rationale Needed"
@@ -202,7 +202,7 @@ export const leedData = [
     budgetYearImpact: 0.30,
     budget10YrImpact: -0.97,
     valuePremium: 0.55,
-    position: -0.75,
+    position: -1.25,
     leedOrBau: "LEED-Induced",
     commercialLabel: "⚠️ Higher Cost, Requires ROI Justification",
     elevx: "✅ Net Positive Investment"
@@ -234,7 +234,7 @@ export const leedData = [
     budgetYearImpact: 0.15,
     budget10YrImpact: -0.17,
     valuePremium: 0.20,
-    position: -0.07,
+    position: -0.27,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "✅ Required – High Strategic Value"
@@ -250,7 +250,7 @@ export const leedData = [
     budgetYearImpact: 0.10,
     budget10YrImpact: -0.54,
     valuePremium: 0.20,
-    position: -0.44,
+    position: -0.64,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "✅ Required – High Strategic Value"
@@ -266,7 +266,7 @@ export const leedData = [
     budgetYearImpact: 0.45,
     budget10YrImpact: -0.82,
     valuePremium: 0.20,
-    position: -0.27,
+    position: -0.92,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "⚠️ Higher Cost, Requires ROI Justification",
     elevx: "✅ Positive Outcome – Commercially Favourable"
@@ -282,7 +282,7 @@ export const leedData = [
     budgetYearImpact: 0.45,
     budget10YrImpact: -0.82,
     valuePremium: 0.20,
-    position: -0.27,
+    position: -0.92,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "⚠️ Higher Cost, Requires ROI Justification",
     elevx: "✅ Positive Outcome – Commercially Favourable"
@@ -298,7 +298,7 @@ export const leedData = [
     budgetYearImpact: 0.15,
     budget10YrImpact: -0.17,
     valuePremium: 1.15,
-    position: -0.54,
+    position: -0.74,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "✅ Net Positive Investment"
@@ -314,7 +314,7 @@ export const leedData = [
     budgetYearImpact: -0.05,
     budget10YrImpact: -1.00,
     valuePremium: 0.20,
-    position: -1.00,
+    position: -1.10,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Net Positive Investment",
     elevx: "✅ Net Positive Investment"
@@ -330,7 +330,7 @@ export const leedData = [
     budgetYearImpact: 0.10,
     budget10YrImpact: -1.17,
     valuePremium: 0.55,
-    position: -1.15,
+    position: -1.45,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "✅ Required – High Strategic Value"
@@ -346,7 +346,7 @@ export const leedData = [
     budgetYearImpact: -0.30,
     budget10YrImpact: -4.12,
     valuePremium: 1.15,
-    position: -4.39,
+    position: -4.69,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "✅ Net Positive Investment"
@@ -362,7 +362,7 @@ export const leedData = [
     budgetYearImpact: -0.50,
     budget10YrImpact: -13.22,
     valuePremium: 0.00,
-    position: -11.72,
+    position: -5.86,
     leedOrBau: "LEED-Induced",
     commercialLabel: "❌ High Cost – Needs Strong Strategic Rationale",
     elevx: "✅ Net Positive Investment"
@@ -378,7 +378,7 @@ export const leedData = [
     budgetYearImpact: 0.20,
     budget10YrImpact: 0.20,
     valuePremium: 0.20,
-    position: 0.30,
+    position: 0.10,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "⚠️ Minor Net Gain – Proceed if Strategically Aligned"
@@ -394,7 +394,7 @@ export const leedData = [
     budgetYearImpact: 0.03,
     budget10YrImpact: 0.03,
     valuePremium: 0.00,
-    position: 0.06,
+    position: 0.03,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "✅ Strong Commercial Case",
     elevx: "✅ Required – Certification Only"
@@ -410,7 +410,7 @@ export const leedData = [
     budgetYearImpact: 0.10,
     budget10YrImpact: -0.85,
     valuePremium: 0.20,
-    position: -0.70,
+    position: -0.95,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "✅ Required – High Strategic Value"
@@ -442,7 +442,7 @@ export const leedData = [
     budgetYearImpact: 0.10,
     budget10YrImpact: -0.22,
     valuePremium: 0.10,
-    position: -0.12,
+    position: -0.27,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "✅ Positive Outcome – Commercially Favourable"
@@ -458,7 +458,7 @@ export const leedData = [
     budgetYearImpact: 0.05,
     budget10YrImpact: 0.05,
     valuePremium: 0.20,
-    position: 0.00,
+    position: -0.05,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "✅ Commercially Justified"
@@ -474,7 +474,7 @@ export const leedData = [
     budgetYearImpact: -0.05,
     budget10YrImpact: -1.32,
     valuePremium: 0.55,
-    position: -1.45,
+    position: -1.60,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "✅ Net Positive Investment"
@@ -490,7 +490,7 @@ export const leedData = [
     budgetYearImpact: 0.10,
     budget10YrImpact: 0.10,
     valuePremium: 0.00,
-    position: 0.20,
+    position: 0.10,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "✅ Strong Commercial Case",
     elevx: "✅ Required – Certification Only"
@@ -538,7 +538,7 @@ export const leedData = [
     budgetYearImpact: 0.19,
     budget10YrImpact: 0.13,
     valuePremium: 0.55,
-    position: 0.05,
+    position: -0.15,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "✅ Commercially Justified"
@@ -554,7 +554,7 @@ export const leedData = [
     budgetYearImpact: 0.14,
     budget10YrImpact: 0.08,
     valuePremium: 0.20,
-    position: 0.13,
+    position: -0.02,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Strong Commercial Case",
     elevx: "⚠️ Minor Net Gain – Proceed if Strategically Aligned"
@@ -586,7 +586,7 @@ export const leedData = [
     budgetYearImpact: 0.15,
     budget10YrImpact: -1.76,
     valuePremium: 0.20,
-    position: -1.41,
+    position: -1.86,
     leedOrBau: "LEED-Induced",
     commercialLabel: "⚠️ Higher Cost, Requires ROI Justification",
     elevx: "✅ Net Positive Investment"
@@ -602,7 +602,7 @@ export const leedData = [
     budgetYearImpact: 0.01,
     budget10YrImpact: 0.01,
     valuePremium: 0.00,
-    position: 0.02,
+    position: 0.01,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Strong Commercial Case",
     elevx: "✅ Commercially Justified"
@@ -634,7 +634,7 @@ export const leedData = [
     budgetYearImpact: 0.12,
     budget10YrImpact: 0.12,
     valuePremium: 0.00,
-    position: 0.24,
+    position: 0.12,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "⚠️ Minor Net Gain – Proceed if Strategically Aligned"
