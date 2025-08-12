@@ -190,7 +190,7 @@ export default function Dashboard() {
           </div>
           <div className="p-3 bg-indigo-50 rounded-lg text-center shadow-sm">
             <p className="text-sm text-slate-600 flex items-center justify-center">
-              LEED Position
+              ELEV-X
               <span className="ml-1 text-gray-400 cursor-help" title="10-Year Impact minus Total Costs">
                 ⓘ
               </span>
