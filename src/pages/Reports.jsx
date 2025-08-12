@@ -73,7 +73,7 @@ export default function Reports() {
                 const capex = item.hard + item.soft;
 
                 const coloredCell = (val) => (
-                  <span className={`${val < 0 ? "text-green-600" : "text-red-600"} font-semibold`}>
+                 <span className="text-black font-semibold">
                     {formatPercent(val)}
                   </span>
                 );
@@ -96,11 +96,11 @@ export default function Reports() {
                       <Badge variant="outline">{item.target}</Badge>
                     </td>
                     <td className="px-4 py-3 font-medium">{item.credits}</td>
-                    <td className={`px-4 py-3 font-semibold ${capex < 0 ? "text-green-600" : "text-red-600"}`}>
+                    <td className={`px-4 py-3 font-semibold text-black`}>
                       {capex < 0 ? <TrendingDown className="h-4 w-4 inline" /> : <TrendingUp className="h-4 w-4 inline" />}{" "}
                       {formatPercent(capex)}
                     </td>
-                    <td className={`px-4 py-3 font-semibold ${item.budget10YrImpact < 0 ? "text-green-600" : "text-red-600"}`}>
+                    <td className={`px-4 py-3 font-semibold text-black`}>
                       {item.budget10YrImpact < 0 ? <TrendingDown className="h-4 w-4 inline" /> : <TrendingUp className="h-4 w-4 inline" />}{" "}
                       {formatPercent(item.budget10YrImpact)}
                     </td>

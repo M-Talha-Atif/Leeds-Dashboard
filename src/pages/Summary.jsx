@@ -112,7 +112,7 @@ export default function Summary() {
         {[
           { title: "Total Credits", value: totalCredits, icon: <Building />, color: "text-slate-700", subtitle: "Across multiple categories" },
           { title: "Total CapEx", value: totalCapex, icon: <PercentCircle />, color: "text-amber-600", subtitle: "Initial impact (%)" },
-          { title: "10-Year OpEx Impact", value: totalOpexImpact, icon: totalOpexImpact < 0 ? <TrendingDown /> : <TrendingUp />, color: totalOpexImpact < 0 ? "text-green-600" : "text-red-600", subtitle: totalOpexImpact < 0 ? "Savings %" : "Extra cost %" },
+          { title: "Budget 10 yr impact", value: totalOpexImpact, icon: totalOpexImpact < 0 ? <TrendingDown /> : <TrendingUp />, color: totalOpexImpact < 0 ? "text-green-600" : "text-red-600", subtitle: totalOpexImpact < 0 ? "Savings %" : "Extra cost %" },
           { title: "Asset Value Impact", value: totalAssetValue, icon: <TrendingUp />, color: "text-blue-600", subtitle: "Estimated value %" }
 
         ].map((card, idx) => (
@@ -171,7 +171,7 @@ export default function Summary() {
               {/* Net Position */}
               <div className="space-y-3 p-4 rounded-xl bg-slate-50 hover:shadow-md transition">
                 <span className="text-sm font-medium flex items-center gap-2">
-                  <PercentCircle className="h-4 w-4 text-blue-600" /> Net Financial Position
+                  <PercentCircle className="h-4 w-4 text-blue-600" /> Net Strategic Position (ELEV-X)
                 </span>
                 <div
                   className={`text-3xl font-bold ${(totalOpexImpact + totalAssetValue - totalCapex) < 0 ? "text-green-600" : "text-red-600"} animate-pulse`}

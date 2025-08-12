@@ -10,7 +10,6 @@ import { Switch } from "@headlessui/react";
 
 export default function Dashboard() {
   const categories = [
-    "Overall Data",
     "All Categories",
     ...new Set(leedData.map((d) => d.category)),
   ];
