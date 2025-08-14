@@ -35,8 +35,8 @@ export default function Summary() {
   );
 
   const totalOpexImpact = leedData.reduce(
-     (sum, d) => sum + (d.budget10YrImpact || 0),
-      0
+    (sum, d) => sum + (d.budget10YrImpact || 0),
+    0
   );
   console.log("Total Opex Impact:", totalOpexImpact);
 
@@ -107,7 +107,7 @@ export default function Summary() {
         </p>
       </motion.div>
 
-    
+
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -195,9 +195,18 @@ export default function Summary() {
           </h2>
           <ul className="space-y-4 text-sm">
             {[
-              { text: "Energy-related credits contribute to 40% of cost savings.", icon: <Leaf className="h-5 w-5 text-green-600" /> },
-              { text: "Payback period under 5 years for 60% of investments.", icon: <TrendingUp className="h-5 w-5 text-amber-600" /> },
-              { text: "Highest OpEx reduction observed in Transport-related credits.", icon: <Building className="h-5 w-5 text-blue-600" /> }
+              {
+                text: "Prioritise Energy Credits: Energy-related LEED credits deliver the highest operational savings",
+                icon: <Leaf className="h-5 w-5 text-green-600" />
+              },
+              {
+                text: "Sitewide Infrastructure Credits Drive Value Premiums",
+                icon: <TrendingUp className="h-5 w-5 text-amber-600" />
+              },
+              {
+                text: "Water Efficiency & Resource Management Add Resilience",
+                icon: <Building className="h-5 w-5 text-blue-600" />
+              }
             ].map((insight, idx) => (
               <motion.li
                 key={idx}

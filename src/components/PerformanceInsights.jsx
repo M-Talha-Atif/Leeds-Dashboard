@@ -6,6 +6,8 @@ import { Zap, Leaf, PercentCircle, TrendingUp } from "lucide-react";
 export default function PerformanceInsights({
   positiveImpactCredits,
   totalCredits,
+  totalHard,
+  totalSoft,
   positiveImpactPercentage,
   totalOpexImpact,
   totalAssetValue,
@@ -71,11 +73,10 @@ export default function PerformanceInsights({
                 <PercentCircle className="h-4 w-4 text-blue-600" /> Net Strategic Position (ELEV-X)
               </span>
               <div
-                className={`text-3xl font-bold ${
-                  (totalOpexImpact + totalAssetValue - totalCapex) < 0
+                className={`text-3xl font-bold ${(totalOpexImpact + totalAssetValue - totalCapex) <= 0
                     ? "text-green-600"
-                    : "text-red-600"
-                } animate-pulse`}
+                    : "text-amber-600"
+                  } animate-pulse`}
               >
                 {formatNumber(totalOpexImpact + totalAssetValue - totalCapex)}
               </div>
@@ -93,8 +94,9 @@ export default function PerformanceInsights({
                 <TrendingUp className="h-4 w-4 text-amber-600" /> ROI Timeline
               </span>
               <div className="text-3xl font-bold text-slate-800 animate-pulse">
+                { console.log(totalOpexImpact, totalHard, totalSoft) }
                 {totalOpexImpact < 0
-                  ? `${Math.abs(totalCapex / (Math.abs(totalOpexImpact) / 10)).toFixed(1)}y`
+                  ? `${Math.abs((totalHard + totalSoft) / (Math.abs(totalOpexImpact))).toFixed(1)}y`
                   : "N/A"}
               </div>
               <p className="text-xs text-muted-foreground">

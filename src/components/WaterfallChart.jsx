@@ -14,11 +14,13 @@ import {
 export default function WaterfallChart({ totals }) {
   // Updated color scheme to match financial waterfall
   const colors = {
-    initial: "#4f46e5",       // Indigo-600 (initial investment)
-    cost: "#ef4444",          // Red-600 (costs)
-    benefit: "#10b981",       // Green-600 (benefits)
-    cumulative: "#3b82f6",    // Blue-500 (cumulative line)
+    positive: "#f59e0b", // Amber-500 for > 0
+    negative: "#16a34a", // Green-600 for <= 0
+    cumulative: "#3b82f6" // Blue-500 for cumulative line
   };
+
+  const colorByValue = (value) =>
+    value > 0 ? colors.positive : colors.negative;
 
   const isEmpty =
     !totals ||
@@ -37,37 +39,37 @@ export default function WaterfallChart({ totals }) {
     {
       name: "Hard",
       value: totals.hard,
-      fill: totals.hard >= 0 ? colors.benefit : colors.cost,
+      fill: totals.hard >= 0 ? colors.positive : colors.negative,
       isCumulative: false
     },
     {
       name: "Soft",
       value: totals.soft,
-      fill: totals.soft >= 0 ? colors.benefit : colors.cost,
+      fill: totals.soft >= 0 ? colors.positive : colors.negative,
       isCumulative: false
     },
     {
       name: "Opex Costs",
       value: totals.opex,
-      fill: totals.opex >= 0 ? colors.benefit : colors.cost,
+      fill: totals.opex >= 0 ? colors.positive : colors.negative,
       isCumulative: false
     },
     {
       name: "Budget 1-Year",
       value: totals.budget1,
-      fill: totals.budget1 >= 0 ? colors.benefit : colors.cost,
+      fill: totals.budget1 >= 0 ? colors.positive : colors.negative,
       isCumulative: false
     },
     {
       name: "Budget 10-Year",
       value: totals.budget10,
-      fill: totals.budget10 >= 0 ? colors.benefit : colors.cost,
+      fill: totals.budget10 >= 0 ? colors.positive : colors.negative,
       isCumulative: false
     },
     {
       name: "Final Position",
       value: totals.position,
-      fill: totals.position >= 0 ? colors.benefit : colors.cost,
+      fill: totals.position >= 0 ? colors.positive : colors.negative,
       isCumulative: true
     }
   ];
@@ -126,7 +128,7 @@ export default function WaterfallChart({ totals }) {
       <ResponsiveContainer width="100%" height={400}>
         <BarChart
           data={processedData}
-          margin={{ top: 20, right: 30, left: 20, bottom: 20 }} 
+          margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
           barGap={4}
           barCategoryGap={40}
         >
@@ -143,7 +145,7 @@ export default function WaterfallChart({ totals }) {
                   textAnchor="middle"
                   fill="#6b7280"
                   fontSize={12}
-                  
+
                 >
                   {words.map((word, index) => (
                     <tspan key={index} x={x} dy={index === 0 ? 0 : 12}>
@@ -174,7 +176,7 @@ export default function WaterfallChart({ totals }) {
               return (
                 <div className="bg-white p-3 shadow-lg rounded-lg border border-gray-200">
                   <p className="font-semibold">{data.name}</p>
-                  <p className={`mt-1 font-bold ${data.value >= 0 ? "text-green-600" : "text-red-600"
+                  <p className={`mt-1 font-bold ${data.value >= 0 ? "text-amber-500" : "text-green-600"
                     }`}>
                     {data.value >= 0 ? "+" : ""}{data.value.toFixed(2)}%
                   </p>
@@ -216,9 +218,8 @@ export default function WaterfallChart({ totals }) {
 
       <div className="mt-4 flex flex-wrap justify-center gap-4">
         {Object.entries({
-          initial: "Initial Investment",
-          cost: "Costs",
-          benefit: "Benefits",
+          positive: "Positive (> 0)",
+          negative: "Negative (≤ 0)",
           cumulative: "Cumulative Flow"
         }).map(([key, label]) => (
           <div key={key} className="flex items-center">

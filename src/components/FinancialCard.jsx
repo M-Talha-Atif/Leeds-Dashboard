@@ -6,6 +6,35 @@ const cardVariants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
 };
 
+// Map textColor classes to matching border & glow colors
+const colorMap = {
+  "text-green-600": {
+    border: "border-green-200",
+    ring: "ring-green-300/50",
+    shadow: "shadow-green-100"
+  },
+  "text-red-600": {
+    border: "border-red-200",
+    ring: "ring-red-300/50",
+    shadow: "shadow-red-100"
+  },
+  "text-yellow-600": {
+    border: "border-yellow-200",
+    ring: "ring-yellow-300/50",
+    shadow: "shadow-yellow-100"
+  },
+  "text-blue-600": {
+    border: "border-blue-200",
+    ring: "ring-blue-300/50",
+    shadow: "shadow-blue-100"
+  },
+  default: {
+    border: "border-slate-200",
+    ring: "ring-slate-300/50",
+    shadow: "shadow-slate-100"
+  }
+};
+
 export default function FinancialCard({
   label,
   value,
@@ -17,9 +46,10 @@ export default function FinancialCard({
   isPercentage
 }) {
   const count = useMotionValue(0);
-  const rounded = useTransform(count, (latest) =>
-    isPercentage ? `${latest.toFixed(2)}%` : latest.toLocaleString()
-  );
+  const rounded = useTransform(count, (latest) => {
+    const fixed = Math.round(latest * 100) / 100;
+    return isPercentage ? `${fixed.toFixed(2)}%` : fixed.toLocaleString();
+  });
 
   useEffect(() => {
     const controls = animate(count, value, {
@@ -29,10 +59,14 @@ export default function FinancialCard({
     return controls.stop;
   }, [value, count]);
 
+  const styles = colorMap[textColor] || colorMap.default;
+
   return (
     <motion.div
       variants={cardVariants}
-      className={`relative p-5 rounded-2xl shadow-md bg-gradient-to-br ${bgGradient} border border-white/60 backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1`}
+      className={`relative p-5 rounded-2xl bg-gradient-to-br ${bgGradient} 
+        border ${styles.border} ${styles.shadow} backdrop-blur-sm transition-all duration-300 
+        hover:shadow-lg hover:-translate-y-1 hover:ring-2 ${styles.ring}`}
     >
       {/* Icon Badge */}
       {Icon && (
@@ -62,7 +96,7 @@ export default function FinancialCard({
         {subValue !== undefined && (
           <span className="text-sm text-slate-500 font-medium">
             {" "}
-            ({subValue.toFixed(1)}%)
+            {subValue.toFixed(1)}%
           </span>
         )}
       </motion.p>

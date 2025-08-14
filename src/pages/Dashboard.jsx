@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import FilterBar from "../components/FilterBar";
 import WaterfallChart from "../components/WaterfallChart";
@@ -13,7 +13,7 @@ import PerformanceInsights from "../components/PerformanceInsights";
 export default function Dashboard() {
   const categories = [
     "All Categories",
-    ...new Set(leedData.map((d) => d.category)),
+    ...new Set(leedData.map((d) => d.category)), // set to remove duplicates
   ];
 
   // State management
@@ -28,6 +28,32 @@ export default function Dashboard() {
   const [activeCredits, setActiveCredits] = useState(() =>
     leedData.reduce((acc, item) => ({ ...acc, [item.creditName]: false }), {})
   );
+
+  const allActive = useMemo(
+    () => Object.values(activeCredits).every(v => v === true),
+    [activeCredits]
+  );
+  // ⬇️ NEW: Keyboard shortcut Shift+X
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // prevent toggling when typing inside inputs/textareas
+      const tag = e.target.tagName.toLowerCase();
+      if (tag === "input" || tag === "textarea" || e.target.isContentEditable) {
+        return;
+      }
+
+      if (e.shiftKey && e.key.toLowerCase() === "x") {
+        e.preventDefault();
+        setActiveCredits((prev) =>
+          Object.fromEntries(Object.keys(prev).map((k) => [k, !allActive]))
+        );
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [allActive]);
+
 
   // Filter data based on category, scenario, and target (show all cards)
   const filteredCards = useMemo(() => {
@@ -51,13 +77,20 @@ export default function Dashboard() {
     const hard = activeItems.reduce((sum, d) => sum + (d.hard || 0), 0);
     const soft = activeItems.reduce((sum, d) => sum + (d.soft || 0), 0);
     const opex = activeItems.reduce((sum, d) => sum + (d.opexCosts || 0), 0);
-    const budget1 = hard + soft + opex;
+    const budget1 = activeItems.reduce((sum, d) => sum + (d.budgetYearImpact || 0), 0);
     const budget10 = activeItems.reduce((sum, d) => sum + (d.budget10YrImpact || 0), 0);
     const position = activeItems.reduce((sum, d) => sum + (d.position || 0), 0);
+    console.log("Total Credits:", totalCredits);
+    console.log("Hard Costs:", hard);
+    console.log("Soft Costs:", soft);
+    console.log("OpEx Impact:", opex);
+    console.log("Budget 1 Year:", budget1);
+    console.log("Budget 10 Year:", budget10);
+    console.log("Position:", position);
     const total = hard + soft;
 
     const totalCapex = hard + soft;
-    
+
     const totalOpexImpact = activeItems.reduce(
       (sum, d) => sum + (d.budget10YrImpact || 0),
       0
@@ -189,8 +222,10 @@ export default function Dashboard() {
           <PerformanceInsights
             positiveImpactCredits={totals.positiveImpactCredits}
             totalCredits={totals.totalCredits}
+            totalHard={totals.hard}
+            totalSoft={totals.soft}
             positiveImpactPercentage={totals.positiveImpactPercentage}
-            totalOpexImpact={totals.totalOpexImpact}
+            totalOpexImpact={totals.opex}
             totalAssetValue={totals.totalAssetValue}
             totalCapex={totals.totalCapex}
             formatCurrency={(value) =>
@@ -211,28 +246,56 @@ export default function Dashboard() {
         {/* Waterfall Chart Visualization */}
         <WaterfallChart totals={totals} />
 
-        <div className="flex justify-center gap-6 mb-6 mt-4" >
+        <div className="flex justify-center mt-6 mb-8">
           <button
             onClick={() =>
               setActiveCredits(prev =>
-                Object.fromEntries(Object.keys(prev).map(k => [k, true]))
+                Object.fromEntries(Object.keys(prev).map(k => [k, !allActive]))
               )
             }
-            className="px-5 py-2.5 bg-green-500 text-white font-semibold rounded-full shadow-md hover:bg-green-600 hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
+            className={`flex items-center gap-3 px-6 py-3 rounded-full font-medium backdrop-blur-md transition-all duration-200 transform hover:-translate-y-0.5 border ${allActive
+                ? "bg-red-500/80 hover:bg-red-500 text-white border-red-400/40"
+                : "bg-green-500/80 hover:bg-green-500 text-white border-green-400/40"
+              } shadow-lg hover:shadow-xl`}
           >
-            Turn All On
-          </button>
-          <button
-            onClick={() =>
-              setActiveCredits(prev =>
-                Object.fromEntries(Object.keys(prev).map(k => [k, false]))
-              )
-            }
-            className="px-5 py-2.5 bg-red-500 text-white font-semibold rounded-full shadow-md hover:bg-red-600 hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
-          >
-            Turn All Off
+            {/* Toggle Icon */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              {allActive ? (
+                // Power off icon
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 3v9m0 0a9 9 0 11-6.364-2.636"
+                />
+              ) : (
+                // Power on icon (cross)
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              )}
+            </svg>
+
+            {/* Text */}
+            <span className="tracking-wide">
+              {allActive ? "Turn All Off" : "Turn All On"}
+            </span>
+
+            {/* Shortcut hint */}
+            <span className="ml-2 text-xs text-white/90 bg-white/20 px-2 py-0.5 rounded-full border border-white/30">
+              ⌘ Shift + X
+            </span>
           </button>
         </div>
+
 
 
         {/* LEED Credit Cards Grid */}

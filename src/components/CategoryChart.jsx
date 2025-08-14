@@ -3,9 +3,9 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function CategoryChart({ data, height = 400 }) {
   const chartData = (data || []).map(item => {
-    const hard = item?.capex?.hard ?? 0;
-    const soft = item?.capex?.soft ?? 0;
-    const opex = item?.opex?.yearImpact ?? 0;
+    const hard = item?.hard ?? 0;
+    const soft = item?.soft ?? 0;
+    const opex = item?.budgetYearImpact ?? 0;
 
     return {
       name: item.creditName?.length > 20 ? item.creditName.slice(0, 20) + "..." : item.creditName || "N/A",

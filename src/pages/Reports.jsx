@@ -58,14 +58,16 @@ export default function Reports() {
                 <th className="px-4 py-3 text-left">Credit</th>
                 <th className="px-4 py-3 text-left">Target</th>
                 <th className="px-4 py-3 text-left">Credits</th>
+                <th className="px-4 py-3 text-left">Hard Cost</th>
+                <th className="px-4 py-3 text-left">Soft Cost</th>
                 <th className="px-4 py-3 text-left">CapEx</th>
-                <th className="px-4 py-3 text-left">OpEx (10Y)</th>
-                <th className="px-4 py-3 text-left">Year 1</th>
+                <th className="px-4 py-3 text-left">Budget 10 Year</th>
+                <th className="px-4 py-3 text-left">Budget 1 Year</th>
                 <th className="px-4 py-3 text-left">Value Premium</th>
-                <th className="px-4 py-3 text-left">Position</th>
-                <th className="px-4 py-3 text-left">LEED/Baseline</th>
-                <th className="px-4 py-3 text-left">Commercial</th>
-                <th className="px-4 py-3 text-left">Strategic</th>
+                <th className="px-4 py-3 text-left">ELEV-X Position</th>
+                <th className="px-4 py-3 text-left">LEED or BAU</th>
+                <th className="px-4 py-3 text-left">Commercial Label</th>
+                <th className="px-4 py-3 text-left">Verdict</th>
               </tr>
             </thead>
             <tbody>
@@ -73,7 +75,7 @@ export default function Reports() {
                 const capex = item.hard + item.soft;
 
                 const coloredCell = (val) => (
-                 <span className="text-black font-semibold">
+                  <span className="text-black font-semibold">
                     {formatPercent(val)}
                   </span>
                 );
@@ -96,25 +98,57 @@ export default function Reports() {
                       <Badge variant="outline">{item.target}</Badge>
                     </td>
                     <td className="px-4 py-3 font-medium">{item.credits}</td>
-                    <td className={`px-4 py-3 font-semibold text-black`}>
-                      {capex < 0 ? <TrendingDown className="h-4 w-4 inline" /> : <TrendingUp className="h-4 w-4 inline" />}{" "}
+                    <td className="px-4 py-3 font-semibold text-black">
+                      {item.hard < 0 ? (
+                        <TrendingDown className="h-4 w-4 inline" />
+                      ) : (
+                        <TrendingUp className="h-4 w-4 inline" />
+                      )}{" "}
+                      {formatPercent(item.hard)}
+                    </td>
+                    <td className="px-4 py-3 font-semibold text-black">
+                      {item.soft < 0 ? (
+                        <TrendingDown className="h-4 w-4 inline" />
+                      ) : (
+                        <TrendingUp className="h-4 w-4 inline" />
+                      )}{" "}
+                      {formatPercent(item.soft)}
+                    </td>
+                    <td className="px-4 py-3 font-semibold text-black">
+                      {capex < 0 ? (
+                        <TrendingDown className="h-4 w-4 inline" />
+                      ) : (
+                        <TrendingUp className="h-4 w-4 inline" />
+                      )}{" "}
                       {formatPercent(capex)}
                     </td>
-                    <td className={`px-4 py-3 font-semibold text-black`}>
-                      {item.budget10YrImpact < 0 ? <TrendingDown className="h-4 w-4 inline" /> : <TrendingUp className="h-4 w-4 inline" />}{" "}
+                    <td className="px-4 py-3 font-semibold text-black">
+                      {item.budget10YrImpact < 0 ? (
+                        <TrendingDown className="h-4 w-4 inline" />
+                      ) : (
+                        <TrendingUp className="h-4 w-4 inline" />
+                      )}{" "}
                       {formatPercent(item.budget10YrImpact)}
                     </td>
-                    <td className="px-4 py-3">{coloredCell(item.budgetYearImpact)}</td>
-                    <td className="px-4 py-3">{coloredCell(item.valuePremium)}</td>
+                    <td className="px-4 py-3">
+                      {coloredCell(item.budgetYearImpact)}
+                    </td>
+                    <td className="px-4 py-3">
+                      {coloredCell(item.valuePremium)}
+                    </td>
                     <td className="px-4 py-3">{coloredCell(item.position)}</td>
                     <td className="px-4 py-3">
                       <Badge variant="secondary">{item.leedOrBau}</Badge>
                     </td>
                     <td className="px-4 py-3">
-                      <Badge className="bg-emerald-500 text-white">{item.commercialLabel}</Badge>
+                      <Badge className="bg-emerald-500 text-white">
+                        {item.commercialLabel}
+                      </Badge>
                     </td>
                     <td className="px-4 py-3">
-                      <Badge className="bg-indigo-600 text-white">{item.elevx}</Badge>
+                      <Badge className="bg-indigo-600 text-white">
+                        {item.elevx}
+                      </Badge>
                     </td>
                   </motion.tr>
                 );
@@ -125,7 +159,9 @@ export default function Reports() {
           <div className="flex flex-col items-center justify-center py-12 text-gray-500">
             <AlertCircle className="h-10 w-10 text-gray-400 mb-2" />
             <p className="text-lg font-medium">No results found</p>
-            <p className="text-sm text-gray-400">Try adjusting your search term.</p>
+            <p className="text-sm text-gray-400">
+              Try adjusting your search term.
+            </p>
           </div>
         )}
       </div>
