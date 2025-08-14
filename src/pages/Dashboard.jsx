@@ -10,15 +10,18 @@ import { Switch } from "@headlessui/react";
 import FinancialSummary from "../components/FinancialSummary";
 import PerformanceInsights from "../components/PerformanceInsights";
 
+
 export default function Dashboard() {
   const categories = [
     "All Categories",
-    ...new Set(leedData.map((d) => d.category)), // set to remove duplicates
+    ...new Set(leedData.map((d) => d.category)), // remove duplicates
   ];
 
   // State management
   const [selectedCategory, setSelectedCategory] = useState("");
   const [scenarioFilter, setScenarioFilter] = useState("");
+  const [multiCategories, setMultiCategories] = useState([]);
+
   const [targetFilter, setTargetFilter] = useState("");
   const [comparisonOpen, setComparisonOpen] = useState(false);
   const [methodologyOpen, setMethodologyOpen] = useState(false);
@@ -60,10 +63,11 @@ export default function Dashboard() {
     return leedData.filter(
       (d) =>
         (!selectedCategory || selectedCategory === "All Categories" || d.category === selectedCategory) &&
+        (multiCategories.length === 0 || multiCategories.includes("All Categories") || multiCategories.includes(d.category)) &&
         (!scenarioFilter || scenarioFilter === "All" || d.leedOrBau === scenarioFilter) &&
         (!targetFilter || targetFilter === "All" || d.target === targetFilter)
     );
-  }, [selectedCategory, scenarioFilter, targetFilter]);
+  }, [selectedCategory, scenarioFilter, targetFilter, multiCategories]);
 
 
 
@@ -159,7 +163,11 @@ export default function Dashboard() {
           selectedCategory={selectedCategory}
           scenarioFilter={scenarioFilter}
           targetFilter={targetFilter}
+          multiCategories={multiCategories}               // pass state
+          onMultiCategoriesChange={setMultiCategories}   // pass setter
         />
+
+
 
         {/* Header & Controls */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
@@ -254,8 +262,8 @@ export default function Dashboard() {
               )
             }
             className={`flex items-center gap-3 px-6 py-3 rounded-full font-medium backdrop-blur-md transition-all duration-200 transform hover:-translate-y-0.5 border ${allActive
-                ? "bg-red-500/80 hover:bg-red-500 text-white border-red-400/40"
-                : "bg-green-500/80 hover:bg-green-500 text-white border-green-400/40"
+              ? "bg-red-500/80 hover:bg-red-500 text-white border-red-400/40"
+              : "bg-green-500/80 hover:bg-green-500 text-white border-green-400/40"
               } shadow-lg hover:shadow-xl`}
           >
             {/* Toggle Icon */}

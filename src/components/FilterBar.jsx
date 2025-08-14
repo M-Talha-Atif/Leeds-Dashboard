@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import MultiCategorySelector from "./MultiCategorySelector";
 import { motion } from "framer-motion";
 
-export default function FilterBar({ categories, onCategoryChange, onScenarioChange }) {
+export default function FilterBar({ categories, onCategoryChange, onScenarioChange, multiCategories, onMultiCategoriesChange }) {
   const scenarios = ["All", "Baseline Best Practice", "LEED-Induced"];
 
   const [selectedScenario, setSelectedScenario] = useState("");
@@ -87,6 +88,23 @@ export default function FilterBar({ categories, onCategoryChange, onScenarioChan
           />
         </div>
       </motion.div>
+      {/* Multi-Category Selector */}
+      <motion.div
+        className="flex flex-col min-w-[200px] flex-1 md:flex-none"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+      >
+        <label className="block text-sm font-semibold text-gray-700 mb-2">
+          Multi-Select Categories
+        </label>
+        <MultiCategorySelector
+          categories={categories}
+          selected={multiCategories}
+          onChange={onMultiCategoriesChange}
+        />
+      </motion.div>
+
 
       {/* Certification Full Bar */}
       <motion.div
