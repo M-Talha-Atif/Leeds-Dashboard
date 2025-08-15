@@ -8,6 +8,8 @@ export default function PerformanceInsights({
   totalCredits,
   totalHard,
   totalSoft,
+  total10YearBudget,
+  total1YearBudget,
   positiveImpactPercentage,
   totalOpexImpact,
   totalAssetValue,
@@ -73,12 +75,12 @@ export default function PerformanceInsights({
                 <PercentCircle className="h-4 w-4 text-blue-600" /> Net Strategic Position (ELEV-X)
               </span>
               <div
-                className={`text-3xl font-bold ${(totalOpexImpact + totalAssetValue - totalCapex) <= 0
+                className={`text-3xl font-bold ${(total10YearBudget - (totalAssetValue * 0.5)) <= 0
                     ? "text-green-600"
                     : "text-amber-600"
                   } animate-pulse`}
               >
-                {formatNumber(totalOpexImpact + totalAssetValue - totalCapex)}
+                {formatNumber((total10YearBudget - (totalAssetValue * 0.5)))}
               </div>
               <p className="text-xs text-muted-foreground">
                 10-year projected impact incl. asset appreciation
@@ -96,7 +98,7 @@ export default function PerformanceInsights({
               <div className="text-3xl font-bold text-slate-800 animate-pulse">
                 { console.log(totalOpexImpact, totalHard, totalSoft) }
                 {totalOpexImpact < 0
-                  ? `${Math.abs((totalHard + totalSoft) / (Math.abs(totalOpexImpact))).toFixed(1)}y`
+                  ? `${Math.abs((totalHard + totalSoft) / (Math.abs(totalOpexImpact) * 0.4)).toFixed(2)}y`
                   : "N/A"}
               </div>
               <p className="text-xs text-muted-foreground">

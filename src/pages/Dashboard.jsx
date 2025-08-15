@@ -232,6 +232,8 @@ export default function Dashboard() {
             totalCredits={totals.totalCredits}
             totalHard={totals.hard}
             totalSoft={totals.soft}
+            total10YearBudget={totals.budget10}
+            total1YearBudget={totals.budget1}
             positiveImpactPercentage={totals.positiveImpactPercentage}
             totalOpexImpact={totals.opex}
             totalAssetValue={totals.totalAssetValue}
