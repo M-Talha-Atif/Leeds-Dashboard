@@ -77,6 +77,7 @@ export default function Dashboard() {
 
     // New: Total credits
     const totalCredits = activeItems.reduce((sum, d) => sum + (d.credits || 0), 0);
+    const activeCount = activeItems.length;
 
     const hard = activeItems.reduce((sum, d) => sum + (d.hard || 0), 0);
     const soft = activeItems.reduce((sum, d) => sum + (d.soft || 0), 0);
@@ -119,6 +120,7 @@ export default function Dashboard() {
       soft,
       opex,
       total,
+      activeCount,
       budget1,
       budget10,
       position,
@@ -229,7 +231,7 @@ export default function Dashboard() {
         <div className="mb-8">
           <PerformanceInsights
             positiveImpactCredits={totals.positiveImpactCredits}
-            totalRows = {filteredCards.length}
+            totalRows = {totals.activeCount}
             totalCredits={totals.totalCredits}
             totalHard={totals.hard}
             totalSoft={totals.soft}
