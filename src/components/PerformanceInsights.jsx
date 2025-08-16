@@ -56,14 +56,14 @@ export default function PerformanceInsights({
                 </span>
               </div>
               <Progress
-                value={positiveImpactPercentage}
+                value={ (positiveImpactCredits / totalRows) * 100 }
                 className="h-3 rounded-full"
                 style={{
                   background: "linear-gradient(90deg, #22c55e, #16a34a)"
                 }}
               />
               <p className="text-xs text-muted-foreground">
-                {positiveImpactPercentage.toFixed(1)}% of credits reduce long-term costs
+                { ( (positiveImpactCredits / totalRows) * 100 ) .toFixed(1)}% of credits reduce long-term costs
               </p>
             </motion.div>
 

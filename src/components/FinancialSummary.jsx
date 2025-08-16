@@ -12,7 +12,6 @@ export default function FinancialSummary({ totals }) {
         { label: "OpEx Impact", value: totals.opex, bgColor: "from-purple-50 to-white", textColor: colorByValue(totals.opex), isPercentage: true },
         { label: "Budget 1 Year", value: totals.budget1, bgColor: "from-orange-50 to-white", textColor: colorByValue(totals.budget1), isPercentage: true },
         { label: "Budget 10 Year", value: totals.totalOpexImpact, bgColor: "from-yellow-50 to-white", textColor: colorByValue(totals.totalOpexImpact), isPercentage: true },
-        { label: "ELEV-X", value: totals.position, subValue: totals.positionPct, bgColor: "from-indigo-50 to-white", textColor: colorByValue(totals.position), tooltip: "10-Year Impact minus Total Costs", isPercentage: true },
         { label: "Total Asset Value", value: totals.totalAssetValue, bgColor: "from-pink-50 to-white", textColor: colorByValue(totals.totalAssetValue), isPercentage: true }
     ];
 
