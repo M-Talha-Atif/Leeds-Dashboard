@@ -93,12 +93,12 @@ export default function FinancialCard({
         className={`text-3xl font-extrabold ${textColor} drop-shadow-sm text-center`}
       >
         <motion.span>{rounded}</motion.span>
-        {subValue !== undefined && (
+        {/* {subValue !== undefined && (
           <span className="text-sm text-slate-500 font-medium">
             {" "}
             {subValue.toFixed(1)}%
           </span>
-        )}
+        )} */}
       </motion.p>
     </motion.div>
   );
