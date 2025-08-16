@@ -100,10 +100,10 @@ export default function Card({ item, showCommercialData, isActive, onToggle }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className={`px-3 py-1 rounded-full text-sm font-medium inline-block mb-5 shadow-sm ${item.commercialLabel.includes("✅")
-              ? "bg-green-100 text-green-800"
-              : item.commercialLabel.includes("⚠️")
-                ? "bg-yellow-100 text-yellow-800"
-                : "bg-red-100 text-red-800"
+            ? "bg-green-100 text-green-800"
+            : item.commercialLabel.includes("⚠️")
+              ? "bg-yellow-100 text-yellow-800"
+              : "bg-red-100 text-red-800"
             }`}
         >
           {item.commercialLabel}
@@ -123,19 +123,19 @@ export default function Card({ item, showCommercialData, isActive, onToggle }) {
           {item.elevx.replace(/^[✅⚠️❌]\s*/, '')}
         </p>
       </motion.div>
-
       {/* Inactive Overlay */}
       {!isActive && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="absolute inset-0 bg-white/70 backdrop-blur-sm rounded-2xl flex items-center justify-center pointer-events-none z-10"
+          className="absolute inset-0 rounded-2xl flex items-center justify-center pointer-events-none z-10"
         >
           <span className="bg-gray-700 text-white px-3 py-1 rounded-full text-xs font-medium shadow">
             INACTIVE
           </span>
         </motion.div>
       )}
+
 
     </motion.div>
   );

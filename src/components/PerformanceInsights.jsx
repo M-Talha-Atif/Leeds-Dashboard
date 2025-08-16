@@ -5,6 +5,7 @@ import { Zap, Leaf, PercentCircle, TrendingUp } from "lucide-react";
 
 export default function PerformanceInsights({
   positiveImpactCredits,
+  totalRows,
   totalCredits,
   totalHard,
   totalSoft,
@@ -51,7 +52,7 @@ export default function PerformanceInsights({
                   <Leaf className="h-4 w-4 text-green-600" /> Positive Impact Credits
                 </span>
                 <span className="text-sm font-semibold text-slate-700">
-                  {positiveImpactCredits}/{totalCredits}
+                  {positiveImpactCredits}/{totalRows}
                 </span>
               </div>
               <Progress

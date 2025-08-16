@@ -229,6 +229,7 @@ export default function Dashboard() {
         <div className="mb-8">
           <PerformanceInsights
             positiveImpactCredits={totals.positiveImpactCredits}
+            totalRows = {filteredCards.length}
             totalCredits={totals.totalCredits}
             totalHard={totals.hard}
             totalSoft={totals.soft}
