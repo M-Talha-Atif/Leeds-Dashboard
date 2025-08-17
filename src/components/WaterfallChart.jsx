@@ -34,7 +34,7 @@ export default function WaterfallChart({ totals }) {
       name: "Initial Position",
       value: 0,
       fill: colors.initial,
-      isCumulative: true
+      isCumulative: false
     },
     {
       name: "Hard",
@@ -68,9 +68,9 @@ export default function WaterfallChart({ totals }) {
     },
     {
       name: "Final Position",
-      value: totals.position,
-      fill: totals.position >= 0 ? colors.positive : colors.negative,
-      isCumulative: true
+      value: (totals.budget10 - (totals.totalAssetValue * 0.5)),
+      fill: (totals.budget10 - (totals.totalAssetValue * 0.5)) >= 0 ? colors.positive : colors.negative,
+      isCumulative: false
     }
   ];
 
@@ -87,6 +87,7 @@ export default function WaterfallChart({ totals }) {
       cumulative: cumulativeValue
     };
   });
+
   if (isEmpty) {
     return (
       <div className="bg-white shadow rounded-lg p-8 text-center text-gray-600">
@@ -180,9 +181,9 @@ export default function WaterfallChart({ totals }) {
                     }`}>
                     {data.value >= 0 ? "+" : ""}{data.value.toFixed(2)}%
                   </p>
-                  <p className="text-sm text-gray-600">
+                  {/* <p className="text-sm text-gray-600">
                     Cumulative: {data.cumulative.toFixed(2)}%
-                  </p>
+                  </p> */}
                 </div>
               );
             }}
@@ -204,13 +205,13 @@ export default function WaterfallChart({ totals }) {
               fill="#374151"
               fontSize={12}
             />
-            <LabelList
+            {/* <LabelList
               dataKey="cumulative"
               position="bottom"
               formatter={(value) => `${value.toFixed(2)}%`}
               fill={colors.cumulative}
               fontSize={12}
-            />
+            /> */}
           </Bar>
         </BarChart>
       </ResponsiveContainer>
@@ -220,7 +221,6 @@ export default function WaterfallChart({ totals }) {
         {Object.entries({
           positive: "Positive (> 0)",
           negative: "Negative (≤ 0)",
-          cumulative: "Cumulative Flow"
         }).map(([key, label]) => (
           <div key={key} className="flex items-center">
             <div

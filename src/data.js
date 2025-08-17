@@ -93,7 +93,7 @@ export const leedData = [
     position: 0.00,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "⚠️ Moderate CapEx – ROI Case Needed",
-    elevx: "⚠️ Minor Net Gain – Proceed if Strategically Aligned"
+    elevx: "✅ Commercially Justified"
   },
   {
     category: "Natural Systems and Ecology",
@@ -125,7 +125,7 @@ export const leedData = [
     position: -0.54,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "⚠️ Moderate CapEx – ROI Case Needed",
-    elevx: "✅ Positive Outcome – Commercially Favourable"
+    elevx: "✅ Net Positive Investment"
   },
   {
     category: "Transport",
@@ -141,7 +141,7 @@ export const leedData = [
     position: 0.09,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "❌ High Cost – Needs Strong Strategic Rationale",
-    elevx: "❌ High Cost – Strong Strategic Rationale Needed"
+    elevx: "✅ Commercially Justified"
   },
   {
     category: "Transport",
@@ -157,7 +157,7 @@ export const leedData = [
     position: -0.59,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "⚠️ Higher Cost, Requires ROI Justification",
-    elevx: "✅ Positive Outcome – Commercially Favourable"
+    elevx: "✅ Net Positive Investment"
   },
   {
     category: "Transport",
@@ -173,7 +173,7 @@ export const leedData = [
     position: 0.11,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "❌ High Cost – Needs Strong Strategic Rationale",
-    elevx: "❌ High Cost – Strong Strategic Rationale Needed"
+    elevx: "⚠️ Minor Net Gain – Proceed if Strategically Aligned"
   },
   {
     category: "Transport",
@@ -189,7 +189,7 @@ export const leedData = [
     position: 0.91,
     leedOrBau: "LEED-Induced",
     commercialLabel: "⚠️ Higher Cost, Requires ROI Justification",
-    elevx: "❌ High Cost – Strong Strategic Rationale Needed"
+    elevx: "⚠️ Minor Net Gain – Proceed if Strategically Aligned"
   },
   {
     category: "Transport",
@@ -269,7 +269,7 @@ export const leedData = [
     position: -0.92,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "⚠️ Higher Cost, Requires ROI Justification",
-    elevx: "✅ Positive Outcome – Commercially Favourable"
+    elevx: "✅ Net Positive Investment"
   },
   {
     category: "Water Efficiency",
@@ -285,7 +285,7 @@ export const leedData = [
     position: -0.92,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "⚠️ Higher Cost, Requires ROI Justification",
-    elevx: "✅ Positive Outcome – Commercially Favourable"
+    elevx: "✅ Net Positive Investment"
   },
   {
     category: "Water Efficiency",
@@ -541,7 +541,7 @@ export const leedData = [
     position: -0.15,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "✅ Viable with Clear Benefits",
-    elevx: "✅ Commercially Justified"
+    elevx: "✅ Positive Outcome – Commercially Favourable"
   },
   {
     category: "Quality of Life",
@@ -557,7 +557,7 @@ export const leedData = [
     position: -0.02,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Strong Commercial Case",
-    elevx: "⚠️ Minor Net Gain – Proceed if Strategically Aligned"
+    elevx: "✅ Commercially Justified"
   },
   {
     category: "Innovation",
