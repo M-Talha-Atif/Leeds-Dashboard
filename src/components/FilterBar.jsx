@@ -3,7 +3,7 @@ import { ChevronDown } from "lucide-react";
 import MultiCategorySelector from "./MultiCategorySelector";
 import { motion } from "framer-motion";
 
-export default function FilterBar({ categories, onCategoryChange, onScenarioChange, multiCategories, onMultiCategoriesChange }) {
+export default function FilterBar({ categories, onCategoryChange, onScenarioChange, multiCategories, onMultiCategoriesChange, tierFilter, onTierChange }) {
   const scenarios = ["All", "Baseline Best Practice", "LEED-Induced"];
 
   const [selectedScenario, setSelectedScenario] = useState("");
@@ -58,6 +58,36 @@ export default function FilterBar({ categories, onCategoryChange, onScenarioChan
           />
         </div>
       </motion.div>
+
+      {/* Tier Dropdown */}
+      <motion.div
+        className="flex flex-col min-w-[200px] flex-1 md:flex-none"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.25 }}
+      >
+        <label className="block text-sm font-semibold text-gray-700 mb-2">Tier</label>
+        <div className="relative">
+          <motion.select
+            whileHover={{ scale: 1.02 }}
+            whileFocus={{ scale: 1.02, boxShadow: "0 0 10px rgba(251,191,36,0.4)" }}
+            value={tierFilter}
+            onChange={(e) => onTierChange(e.target.value)}
+            className="w-full md:w-64 p-3 pr-10 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-300 focus:border-amber-300 appearance-none transition"
+          >
+            <option value="">-- Select Tier --</option>
+            <option value="All">All</option>
+            <option value="Tier 1">Tier 1</option>
+            <option value="Tier 2">Tier 2</option>
+            <option value="Tier 3">Tier 3</option>
+          </motion.select>
+          <ChevronDown
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+            size={18}
+          />
+        </div>
+      </motion.div>
+
 
       {/* Scenario Dropdown */}
       <motion.div

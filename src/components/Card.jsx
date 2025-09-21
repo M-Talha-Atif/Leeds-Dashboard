@@ -47,29 +47,48 @@ export default function Card({ item, showCommercialData, isActive, onToggle }) {
       )}
 
       {/* Header */}
+      {/* Header */}
       <div className="flex justify-between items-start mb-5">
         <div>
-          <h2 className="text-xl font-semibold tracking-tight text-gray-900">{item.creditName}</h2>
-          <span className={`mt-1 inline-block text-xs px-2 py-1 rounded-full font-medium ${verdictColor}`}>
-            {item.leedOrBau}
-          </span>
+          <h2 className="text-xl font-semibold tracking-tight text-gray-900">
+            {item.creditName}
+          </h2>
+          <div className="flex flex-wrap items-center gap-2 mt-2">
+            {/* Tier Badge */}
+            <span
+              className={`px-2 py-0.5 text-xs rounded-full font-medium
+        ${item.tier === "Tier 1" ? "bg-red-100 text-red-800" :
+                  item.tier === "Tier 2" ? "bg-yellow-100 text-yellow-800" :
+                    "bg-blue-100 text-blue-800"}`}
+            >
+              {item.tier}
+            </span>
+
+            {/* LEED/Baseline Badge */}
+            <span
+              className={`px-2 py-0.5 text-xs rounded-full font-medium ${verdictColor}`}
+            >
+              {item.leedOrBau}
+            </span>
+          </div>
         </div>
 
         {/* Toggle */}
         <Switch
           checked={isActive}
           onChange={onToggle}
-          className={`${isActive ? 'bg-blue-600' : 'bg-gray-300'} 
-            relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300`}
+          className={`${isActive ? "bg-blue-600" : "bg-gray-300"}
+      relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300`}
         >
           <span className="sr-only">Toggle credit</span>
           <motion.span
             layout
-            className={`${isActive ? 'translate-x-6' : 'translate-x-1'} 
-              inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform`}
+            className={`${isActive ? "translate-x-6" : "translate-x-1"}
+        inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform`}
           />
         </Switch>
       </div>
+
 
       {/* Metrics */}
       <div className="grid grid-cols-2 gap-y-3 text-sm mb-5">

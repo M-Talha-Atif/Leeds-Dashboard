@@ -20,6 +20,8 @@ export default function Dashboard() {
   // State management
   const [selectedCategory, setSelectedCategory] = useState("");
   const [scenarioFilter, setScenarioFilter] = useState("");
+  const [tierFilter, setTierFilter] = useState(""); // phase 2- filter by tier
+
   const [multiCategories, setMultiCategories] = useState([]);
 
   const [targetFilter, setTargetFilter] = useState("");
@@ -65,9 +67,10 @@ export default function Dashboard() {
         (!selectedCategory || selectedCategory === "All Categories" || d.category === selectedCategory) &&
         (multiCategories.length === 0 || multiCategories.includes("All Categories") || multiCategories.includes(d.category)) &&
         (!scenarioFilter || scenarioFilter === "All" || d.leedOrBau === scenarioFilter) &&
-        (!targetFilter || targetFilter === "All" || d.target === targetFilter)
+        (!targetFilter || targetFilter === "All" || d.target === targetFilter) &&
+        (!tierFilter || tierFilter === "All" || d.tier === tierFilter)   // phase 2- filter by tier
     );
-  }, [selectedCategory, scenarioFilter, targetFilter, multiCategories]);
+  }, [selectedCategory, scenarioFilter, targetFilter, multiCategories, tierFilter]);
 
 
 
@@ -167,6 +170,8 @@ export default function Dashboard() {
           targetFilter={targetFilter}
           multiCategories={multiCategories}               // pass state
           onMultiCategoriesChange={setMultiCategories}   // pass setter
+          tierFilter={tierFilter}                  // state
+          onTierChange={setTierFilter}             // setter
         />
 
 
@@ -231,7 +236,7 @@ export default function Dashboard() {
         <div className="mb-8">
           <PerformanceInsights
             positiveImpactCredits={totals.positiveImpactCredits}
-            totalRows = {totals.activeCount}
+            totalRows={totals.activeCount}
             totalCredits={totals.totalCredits}
             totalHard={totals.hard}
             totalSoft={totals.soft}

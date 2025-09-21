@@ -13,7 +13,8 @@ export const leedData = [
     position: -0.30,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Net Cost Saving",
-    elevx: "✅ Required – High Strategic Value"
+    elevx: "✅ Required – High Strategic Value",
+    tier: "Tier 1"
   },
   {
     category: "Integrated Process",
@@ -29,7 +30,9 @@ export const leedData = [
     position: -0.69,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Low Additional CapEx",
-    elevx: "✅ Net Positive Investment"
+    elevx: "✅ Net Positive Investment",
+    tier: "Tier 1"
+    
   },
   {
     category: "Natural Systems and Ecology",
@@ -45,7 +48,8 @@ export const leedData = [
     position: 0.10,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "⚠️ Moderate CapEx – ROI Case Needed",
-    elevx: "✅ Required – Certification Only"
+    elevx: "✅ Required – Certification Only",
+     tier: "Tier 3"
   },
   {
     category: "Natural Systems and Ecology",
@@ -61,7 +65,8 @@ export const leedData = [
     position: 0.05,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "✅ Low Additional CapEx",
-    elevx: "✅ Required – Certification Only"
+    elevx: "✅ Required – Certification Only",
+    tier: "Tier 3"
   },
   {
     category: "Natural Systems and Ecology",
@@ -77,7 +82,8 @@ export const leedData = [
     position: 0.86,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "⚠️ Elevated CapEx – Strategic Review Required",
-    elevx: "✅ Required – High Strategic Value"
+    elevx: "✅ Required – High Strategic Value",
+    tier: "Tier 1"
   },
   {
     category: "Natural Systems and Ecology",
@@ -93,7 +99,8 @@ export const leedData = [
     position: 0.00,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "⚠️ Moderate CapEx – ROI Case Needed",
-    elevx: "✅ Commercially Justified"
+    elevx: "✅ Commercially Justified",
+    tier: "Tier 3"
   },
   {
     category: "Natural Systems and Ecology",
@@ -109,7 +116,8 @@ export const leedData = [
     position: -0.37,
     leedOrBau: "LEED-Induced",
     commercialLabel: "⚠️ Moderate CapEx – ROI Case Needed",
-    elevx: "✅ Positive Outcome – Commercially Favourable"
+    elevx: "✅ Positive Outcome – Commercially Favourable",
+    tier: "Tier 3"
   },
   {
     category: "Natural Systems and Ecology",
@@ -125,7 +133,8 @@ export const leedData = [
     position: -0.54,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "⚠️ Moderate CapEx – ROI Case Needed",
-    elevx: "✅ Net Positive Investment"
+    elevx: "✅ Net Positive Investment",
+    tier: "Tier 1"
   },
   {
     category: "Transport",
@@ -141,7 +150,8 @@ export const leedData = [
     position: 0.09,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "❌ High Cost – Needs Strong Strategic Rationale",
-    elevx: "✅ Commercially Justified"
+    elevx: "✅ Commercially Justified",
+    tier: "Tier 2"
   },
   {
     category: "Transport",
@@ -157,7 +167,8 @@ export const leedData = [
     position: -0.59,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "⚠️ Higher Cost, Requires ROI Justification",
-    elevx: "✅ Net Positive Investment"
+    elevx: "✅ Net Positive Investment",
+     tier: "Tier 1"
   },
   {
     category: "Transport",
@@ -173,7 +184,8 @@ export const leedData = [
     position: 0.11,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "❌ High Cost – Needs Strong Strategic Rationale",
-    elevx: "⚠️ Minor Net Gain – Proceed if Strategically Aligned"
+    elevx: "⚠️ Minor Net Gain – Proceed if Strategically Aligned",
+    tier: "Tier 2"
   },
   {
     category: "Transport",
@@ -189,7 +201,8 @@ export const leedData = [
     position: 0.91,
     leedOrBau: "LEED-Induced",
     commercialLabel: "⚠️ Higher Cost, Requires ROI Justification",
-    elevx: "⚠️ Minor Net Gain – Proceed if Strategically Aligned"
+    elevx: "⚠️ Minor Net Gain – Proceed if Strategically Aligned",
+    tier: "Tier 2"
   },
   {
     category: "Transport",
@@ -205,7 +218,8 @@ export const leedData = [
     position: -1.25,
     leedOrBau: "LEED-Induced",
     commercialLabel: "⚠️ Higher Cost, Requires ROI Justification",
-    elevx: "✅ Net Positive Investment"
+    elevx: "✅ Net Positive Investment",
+    tier: "Tier 1"
   },
   {
     category: "Transport",
@@ -221,7 +235,8 @@ export const leedData = [
     position: 0.00,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Strong Commercial Case",
-    elevx: "✅ Commercially Justified"
+    elevx: "✅ Commercially Justified",
+    tier: "Tier 2"
   },
   {
     category: "Water Efficiency",
@@ -237,7 +252,8 @@ export const leedData = [
     position: -0.27,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Viable with Clear Benefits",
-    elevx: "✅ Required – High Strategic Value"
+    elevx: "✅ Required – High Strategic Value",
+    tier: "Tier 1"
   },
   {
     category: "Water Efficiency",
@@ -253,7 +269,8 @@ export const leedData = [
     position: -0.64,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Viable with Clear Benefits",
-    elevx: "✅ Required – High Strategic Value"
+    elevx: "✅ Required – High Strategic Value",
+    tier: "Tier 1"
   },
   {
     category: "Water Efficiency",
@@ -269,7 +286,8 @@ export const leedData = [
     position: -0.92,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "⚠️ Higher Cost, Requires ROI Justification",
-    elevx: "✅ Net Positive Investment"
+    elevx: "✅ Net Positive Investment",
+    tier: "Tier 1"
   },
   {
     category: "Water Efficiency",
@@ -285,7 +303,8 @@ export const leedData = [
     position: -0.92,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "⚠️ Higher Cost, Requires ROI Justification",
-    elevx: "✅ Net Positive Investment"
+    elevx: "✅ Net Positive Investment",
+    tier: "Tier 1"
   },
   {
     category: "Water Efficiency",
@@ -301,7 +320,8 @@ export const leedData = [
     position: -0.74,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Viable with Clear Benefits",
-    elevx: "✅ Net Positive Investment"
+    elevx: "✅ Net Positive Investment",
+    tier: "Tier 1"
   },
   {
     category: "Energy and Greenhouse Gas Emissions",
@@ -317,7 +337,8 @@ export const leedData = [
     position: -1.10,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Net Positive Investment",
-    elevx: "✅ Net Positive Investment"
+    elevx: "✅ Net Positive Investment",
+    tier: "Tier 1"
   },
   {
     category: "Energy and Greenhouse Gas Emissions",
@@ -333,7 +354,8 @@ export const leedData = [
     position: -1.45,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "✅ Viable with Clear Benefits",
-    elevx: "✅ Required – High Strategic Value"
+    elevx: "✅ Required – High Strategic Value",
+    tier: "Tier 1"
   },
   {
     category: "Energy and Greenhouse Gas Emissions",
@@ -349,7 +371,8 @@ export const leedData = [
     position: -4.69,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Viable with Clear Benefits",
-    elevx: "✅ Net Positive Investment"
+    elevx: "✅ Net Positive Investment",
+    tier: "Tier 1"
   },
   {
     category: "Energy and Greenhouse Gas Emissions",
@@ -365,7 +388,8 @@ export const leedData = [
     position: -5.86,
     leedOrBau: "LEED-Induced",
     commercialLabel: "❌ High Cost – Needs Strong Strategic Rationale",
-    elevx: "✅ Net Positive Investment"
+    elevx: "✅ Net Positive Investment",
+    tier: "Tier 2"
   },
   {
     category: "Energy and Greenhouse Gas Emissions",
@@ -381,7 +405,8 @@ export const leedData = [
     position: 0.10,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Viable with Clear Benefits",
-    elevx: "⚠️ Minor Net Gain – Proceed if Strategically Aligned"
+    elevx: "⚠️ Minor Net Gain – Proceed if Strategically Aligned",
+    tier: "Tier 2"
   },
   {
     category: "Materials and Resources",
@@ -397,7 +422,8 @@ export const leedData = [
     position: 0.03,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "✅ Strong Commercial Case",
-    elevx: "✅ Required – Certification Only"
+    elevx: "✅ Required – Certification Only",
+    tier: "Tier 3"
   },
   {
     category: "Materials and Resources",
@@ -413,7 +439,8 @@ export const leedData = [
     position: -0.95,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "✅ Viable with Clear Benefits",
-    elevx: "✅ Required – High Strategic Value"
+    elevx: "✅ Required – High Strategic Value",
+    tier: "Tier 1"
   },
   {
     category: "Materials and Resources",
@@ -429,7 +456,8 @@ export const leedData = [
     position: 0.00,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Strong Commercial Case",
-    elevx: "✅ Commercially Justified"
+    elevx: "✅ Commercially Justified",
+    tier: "Tier 2"
   },
   {
     category: "Materials and Resources",
@@ -445,7 +473,8 @@ export const leedData = [
     position: -0.27,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Viable with Clear Benefits",
-    elevx: "✅ Positive Outcome – Commercially Favourable"
+    elevx: "✅ Positive Outcome – Commercially Favourable",
+    tier: "Tier 2"
   },
   {
     category: "Materials and Resources",
@@ -461,7 +490,8 @@ export const leedData = [
     position: -0.05,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Viable with Clear Benefits",
-    elevx: "✅ Commercially Justified"
+    elevx: "✅ Commercially Justified",
+    tier: "Tier 2"
   },
   {
     category: "Materials and Resources",
@@ -477,7 +507,8 @@ export const leedData = [
     position: -1.60,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Viable with Clear Benefits",
-    elevx: "✅ Net Positive Investment"
+    elevx: "✅ Net Positive Investment",
+    tier: "Tier 1"
   },
   {
     category: "Quality of Life",
@@ -493,7 +524,8 @@ export const leedData = [
     position: 0.10,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "✅ Strong Commercial Case",
-    elevx: "✅ Required – Certification Only"
+    elevx: "✅ Required – Certification Only",
+    tier: "Tier 3"
   },
   {
     category: "Quality of Life",
@@ -509,7 +541,8 @@ export const leedData = [
     position: 0.00,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "✅ Strong Commercial Case",
-    elevx: "✅ Required – High Strategic Value"
+    elevx: "✅ Required – High Strategic Value",
+    tier: "Tier 1"
   },
   {
     category: "Quality of Life",
@@ -525,7 +558,8 @@ export const leedData = [
     position: 0.00,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Strong Commercial Case",
-    elevx: "✅ Commercially Justified"
+    elevx: "✅ Commercially Justified",
+    tier: "Tier 2"
   },
   {
     category: "Quality of Life",
@@ -541,7 +575,8 @@ export const leedData = [
     position: -0.15,
     leedOrBau: "Baseline Best Practice",
     commercialLabel: "✅ Viable with Clear Benefits",
-    elevx: "✅ Positive Outcome – Commercially Favourable"
+    elevx: "✅ Positive Outcome – Commercially Favourable",
+    tier: "Tier 2"
   },
   {
     category: "Quality of Life",
@@ -557,7 +592,8 @@ export const leedData = [
     position: -0.02,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Strong Commercial Case",
-    elevx: "✅ Commercially Justified"
+    elevx: "✅ Commercially Justified",
+    tier: "Tier 2"
   },
   {
     category: "Innovation",
@@ -573,7 +609,8 @@ export const leedData = [
     position: -1.01,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Net Positive Investment",
-    elevx: "✅ Net Positive Investment"
+    elevx: "✅ Net Positive Investment",
+    tier: "Tier 1"
   },
   {
     category: "Innovation",
@@ -589,7 +626,8 @@ export const leedData = [
     position: -1.86,
     leedOrBau: "LEED-Induced",
     commercialLabel: "⚠️ Higher Cost, Requires ROI Justification",
-    elevx: "✅ Net Positive Investment"
+    elevx: "✅ Net Positive Investment",
+    tier: "Tier 1"
   },
   {
     category: "Innovation",
@@ -605,7 +643,8 @@ export const leedData = [
     position: 0.01,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Strong Commercial Case",
-    elevx: "✅ Commercially Justified"
+    elevx: "✅ Commercially Justified",
+    tier: "Tier 2"
   },
   {
     category: "Innovation",
@@ -621,7 +660,8 @@ export const leedData = [
     position: 0.00,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Strong Commercial Case",
-    elevx: "✅ Commercially Justified"
+    elevx: "✅ Commercially Justified",
+    tier: "Tier 2"
   },
   {
     category: "Innovation",
@@ -637,7 +677,8 @@ export const leedData = [
     position: 0.12,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Viable with Clear Benefits",
-    elevx: "⚠️ Minor Net Gain – Proceed if Strategically Aligned"
+    elevx: "⚠️ Minor Net Gain – Proceed if Strategically Aligned",
+    tier: "Tier 2"
   },
   {
     category: "Regional Priority",
@@ -653,7 +694,8 @@ export const leedData = [
     position: -0.28,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Strong Commercial Case",
-    elevx: "✅ Positive Outcome – Commercially Favourable"
+    elevx: "✅ Positive Outcome – Commercially Favourable",
+    tier: "Tier 2"
   },
   {
     category: "Regional Priority",
@@ -669,6 +711,7 @@ export const leedData = [
     position: -0.28,
     leedOrBau: "LEED-Induced",
     commercialLabel: "✅ Strong Commercial Case",
-    elevx: "✅ Positive Outcome – Commercially Favourable"
+    elevx: "✅ Positive Outcome – Commercially Favourable",
+    tier: "Tier 2"
   }
 ];
