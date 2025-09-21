@@ -3,7 +3,9 @@ import { ChevronDown } from "lucide-react";
 import MultiCategorySelector from "./MultiCategorySelector";
 import { motion } from "framer-motion";
 
-export default function FilterBar({ categories, onCategoryChange, onScenarioChange, multiCategories, onMultiCategoriesChange, tierFilter, onTierChange }) {
+export default function FilterBar({ categories, onCategoryChange, onScenarioChange, multiCategories, onMultiCategoriesChange, tierFilter, onTierChange,
+  ownershipFilter, onOwnershipChange
+ }) {
   const scenarios = ["All", "Baseline Best Practice", "LEED-Induced"];
 
   const [selectedScenario, setSelectedScenario] = useState("");
@@ -134,6 +136,19 @@ export default function FilterBar({ categories, onCategoryChange, onScenarioChan
           onChange={onMultiCategoriesChange}
         />
       </motion.div>
+
+      {/* Ownership Sensitivity Dropdown */}
+      <motion.div className="flex flex-col min-w-[200px]">
+        <label className="block text-sm font-semibold text-gray-700 mb-2">Ownership</label>
+        <select value={ownershipFilter} onChange={(e) => onOwnershipChange(e.target.value)} className="w-full md:w-64 p-3 rounded-lg border">
+          <option value="">All</option>
+          <option value="N/A">N/A</option>
+          <option value="Community-only O&M">Community-only O&M</option>
+          <option value="Building O&M">Building O&M</option>
+          <option value="Mixed (Community + Buildings)">Mixed (Community + Buildings)</option>
+        </select>
+      </motion.div>
+
 
 
       {/* Certification Full Bar */}

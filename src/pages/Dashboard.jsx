@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import Navbar from "../components/Navbar";
 import FilterBar from "../components/FilterBar";
 import WaterfallChart from "../components/WaterfallChart";
@@ -21,6 +21,11 @@ export default function Dashboard() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [scenarioFilter, setScenarioFilter] = useState("");
   const [tierFilter, setTierFilter] = useState(""); // phase 2- filter by tier
+  //phase 2
+  const [dSellOn, setDSellOn] = useState(false);                // D-Sell on/off
+  const [costView, setCostView] = useState("percent");         // "percent" | "absolute"
+  const [ownershipFilter, setOwnershipFilter] = useState("");  // filter by ownershipSensitivity
+
 
   const [multiCategories, setMultiCategories] = useState([]);
 
@@ -28,6 +33,18 @@ export default function Dashboard() {
   const [comparisonOpen, setComparisonOpen] = useState(false);
   const [methodologyOpen, setMethodologyOpen] = useState(false);
   const [showCommercial, setShowCommercial] = useState(false);
+
+  const applyDSell = useCallback((ownership, value) => {
+    if (!dSellOn) return value;
+    switch ((ownership || "").trim()) {
+      case "Building O&M": return value * 0.31;
+      case "Mixed (Community + Buildings)": return value * 0.318;
+      case "Community-only O&M":
+      case "N/A":
+      default: return value;
+    }
+  }, [dSellOn]);
+
 
   // Track active credits (all enabled by default)
   const [activeCredits, setActiveCredits] = useState(() =>
@@ -61,16 +78,32 @@ export default function Dashboard() {
 
 
   // Filter data based on category, scenario, and target (show all cards)
+  // 2. Then use it inside filteredCards
   const filteredCards = useMemo(() => {
-    return leedData.filter(
-      (d) =>
+    return leedData
+      .filter((d) =>
         (!selectedCategory || selectedCategory === "All Categories" || d.category === selectedCategory) &&
         (multiCategories.length === 0 || multiCategories.includes("All Categories") || multiCategories.includes(d.category)) &&
         (!scenarioFilter || scenarioFilter === "All" || d.leedOrBau === scenarioFilter) &&
         (!targetFilter || targetFilter === "All" || d.target === targetFilter) &&
-        (!tierFilter || tierFilter === "All" || d.tier === tierFilter)   // phase 2- filter by tier
-    );
-  }, [selectedCategory, scenarioFilter, targetFilter, multiCategories, tierFilter]);
+        (!tierFilter || tierFilter === "All" || d.tier === tierFilter) &&
+        (!ownershipFilter || ownershipFilter === "All" || d.ownershipSensitivity === ownershipFilter)
+      )
+      .map((d) => {
+        const adjustedOpex = applyDSell(d.ownershipSensitivity, d.opexCosts);
+        return {
+          ...d,
+          opexCosts: adjustedOpex,
+          budgetYearImpact: d.hard + d.soft + adjustedOpex,
+          budget10YrImpact: (7.36 * adjustedOpex) + d.hard + d.soft,
+        };
+      });
+  }, [selectedCategory, multiCategories, scenarioFilter, targetFilter, tierFilter, ownershipFilter, applyDSell]);
+
+
+
+
+
 
 
 
@@ -85,8 +118,10 @@ export default function Dashboard() {
     const hard = activeItems.reduce((sum, d) => sum + (d.hard || 0), 0);
     const soft = activeItems.reduce((sum, d) => sum + (d.soft || 0), 0);
     const opex = activeItems.reduce((sum, d) => sum + (d.opexCosts || 0), 0);
-    const budget1 = activeItems.reduce((sum, d) => sum + (d.budgetYearImpact || 0), 0);
-    const budget10 = activeItems.reduce((sum, d) => sum + (d.budget10YrImpact || 0), 0);
+
+    // Apply formulas
+    const budget1 = hard + soft + opex;
+    const budget10 = (7.36 * opex) + hard + soft;
     const position = activeItems.reduce((sum, d) => sum + (d.position || 0), 0);
     console.log("Total Credits:", totalCredits);
     console.log("Hard Costs:", hard);
@@ -172,6 +207,8 @@ export default function Dashboard() {
           onMultiCategoriesChange={setMultiCategories}   // pass setter
           tierFilter={tierFilter}                  // state
           onTierChange={setTierFilter}             // setter
+          ownershipFilter={ownershipFilter}
+          onOwnershipChange={setOwnershipFilter}
         />
 
 
@@ -196,6 +233,21 @@ export default function Dashboard() {
               </Switch>
               <span className="text-sm text-gray-700">Show Commercial Info</span>
             </div>
+
+            {/* D-Sell toggle */}
+            <div className="flex items-center space-x-2">
+              <Switch checked={dSellOn} onChange={setDSellOn} className={`${dSellOn ? "bg-indigo-600" : "bg-gray-300"} relative inline-flex h-6 w-11 items-center rounded-full`}>
+                <span className={`${dSellOn ? "translate-x-6" : "translate-x-1"} inline-block h-4 w-4 transform bg-white rounded-full`} />
+              </Switch>
+              <span className="text-sm text-gray-700">D-Sell Simulation</span>
+            </div>
+
+            {/* Cost View toggle */}
+            <div className="flex items-center gap-2">
+              <button onClick={() => setCostView("percent")} className={costView === "percent" ? "font-semibold" : "text-sm"}>% View</button>
+              <button onClick={() => setCostView("absolute")} className={costView === "absolute" ? "font-semibold" : "text-sm"}>Absolute</button>
+            </div>
+
 
             {/* Target Filter */}
             <div className="flex items-center gap-2">
