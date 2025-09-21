@@ -176,5 +176,5 @@ Licensed under the [MIT License](LICENSE.md).
 
 For issues or questions:
 
-* 📧 Email: [support@example.com](mailto:support@example.com)
+* 📧 Email: [talhaatif573@gmail.com](mailto:talhaatif573@gmail.com)
 * 🐛 [GitHub Issues](https://github.com/Progambler227788/Leeds-Dashboard/issues)
