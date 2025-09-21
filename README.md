@@ -2,7 +2,8 @@
 
 A comprehensive, interactive dashboard for analyzing the **financial and strategic implications** of LEED (Leadership in Energy and Environmental Design) certification credits.
 
-![React](https://img.shields.io/badge/React-18.2.0-blue) ![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue) ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.3+-blue) ![License](https://img.shields.io/badge/License-MIT-green)
+![React](https://img.shields.io/badge/React-18.2.0-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow) ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.3+-blue) ![License](https://img.shields.io/badge/License-MIT-green)
+
 
 ---
 
