@@ -45,7 +45,7 @@ The **LEED Certification Dashboard** empowers project teams, architects, and sus
 
 ## 🛠 Tech Stack
 
-* **Frontend**: React (18.2+), TypeScript
+* **Frontend**: React (18.2+), JavaScript
 * **Styling**: TailwindCSS, HeadlessUI, Lucide Icons
 * **Data Visualization**: Recharts, Framer Motion
 * **Tooling**: Vite, ESLint, PostCSS
