@@ -9,6 +9,8 @@ import MethodologyModal from "../components/MethodologyModal";
 import { Switch } from "@headlessui/react";
 import FinancialSummary from "../components/FinancialSummary";
 import PerformanceInsights from "../components/PerformanceInsights";
+import { baselineCosts } from "@/baselineCosts";
+
 
 
 export default function Dashboard() {
@@ -25,6 +27,8 @@ export default function Dashboard() {
   const [dSellOn, setDSellOn] = useState(false);                // D-Sell on/off
   const [costView, setCostView] = useState("percent");         // "percent" | "absolute"
   const [ownershipFilter, setOwnershipFilter] = useState("");  // filter by ownershipSensitivity
+  const [costSource, setCostSource] = useState("REFINED"); // "REFINED" | "RAW"
+
 
 
   const [multiCategories, setMultiCategories] = useState([]);
@@ -33,6 +37,23 @@ export default function Dashboard() {
   const [comparisonOpen, setComparisonOpen] = useState(false);
   const [methodologyOpen, setMethodologyOpen] = useState(false);
   const [showCommercial, setShowCommercial] = useState(false);
+
+  const parsePct = (v) => {
+    if (v == null) return 0;
+    if (typeof v === "number") return v;
+    const s = String(v).trim();
+    if (s.endsWith("%")) return parseFloat(s.replace("%", "")) / 100;
+    return parseFloat(s) || 0;
+  };
+
+  // const parsePct = (v) => {
+  //   if (v == null) return 0;
+  //   if (typeof v === "number") return v / 100; // normalize numbers
+  //   const s = String(v).trim();
+  //   if (s.endsWith("%")) return parseFloat(s.replace("%", "")) / 100;
+  //   return (parseFloat(s) || 0) / 100;
+  // };
+
 
   const applyDSell = useCallback((ownership, value) => {
     if (!dSellOn) return value;
@@ -44,6 +65,93 @@ export default function Dashboard() {
       default: return value;
     }
   }, [dSellOn]);
+
+  const normalizeAssetClass = (assetClass, costSource) => {
+    if (!assetClass) return "Community + ALL";
+
+    // Handle special REFINE rule: Community / Community+All → Community + ALL
+    if ((assetClass === "Community" || assetClass === "Community+All") && costSource === "REFINED") {
+      return "Community + ALL";
+    }
+
+    // Normalize variants (if data has "Community+All", map to "Community + ALL")
+    if (assetClass === "Community+All") return "Community + ALL";
+
+    return assetClass;
+  };
+
+
+  const calculateImpacts = useCallback((d) => {
+    // parse percent values
+    const hardPct = parsePct(d.hard);
+    const softPct = parsePct(d.soft);
+    const opexPct = parsePct(d.opexCosts);
+
+    console.groupCollapsed(`📊 Calculating impacts for: ${d.creditName || "Unnamed Credit"}`);
+    console.log("🔹 Raw Percent Inputs", {
+      hardPct,
+      softPct,
+      opexPct,
+      ownershipSensitivity: d.ownershipSensitivity,
+      assetClass: d.assetClass,
+      costSource: d.costSource,
+    });
+
+    // asset class lookup
+    const lookupAsset = normalizeAssetClass(d.assetClass, d.costSource);
+
+
+    console.log("🏷️ Lookup Asset:", lookupAsset);
+
+    const hardBase = baselineCosts.hard[lookupAsset] ?? 0;
+    const softBase = baselineCosts.soft[lookupAsset] ?? 0;
+    const opexBase = baselineCosts.opex[lookupAsset] ?? 0;
+
+    console.log("📌 Baseline Costs", { hardBase, softBase, opexBase });
+
+    // apply D-Sell
+    const adjustedOpexPct = applyDSell(d.ownershipSensitivity, opexPct);
+    console.log("⚖️ Adjusted Opex % (after D-Sell):", adjustedOpexPct);
+
+    // refined logic
+    const isRefined = costSource === "REFINED";
+    console.log("🧮 Is Refined Mode?", isRefined);
+
+    // absolute amounts
+    const hardAbs = isRefined
+      ? (hardPct / 100) * hardBase
+      : (d.rawHard != null ? Number(d.rawHard) : hardPct * hardBase);
+
+    const softAbs = isRefined
+      ? (softPct / 100) * softBase
+      : (d.rawSoft != null ? Number(d.rawSoft) : softPct * softBase);
+
+    const opexAbs = isRefined ? (adjustedOpexPct / 100) * opexBase : (adjustedOpexPct) * opexBase;
+
+    console.log("💵 Absolute Costs", { hardAbs, softAbs, opexAbs });
+
+    const budgetYearAbs = hardAbs + softAbs + opexAbs;
+    const budget10Abs = hardAbs + softAbs + 7.36 * opexAbs;
+
+    console.log("📅 Budgets (Absolute)", { budgetYearAbs, budget10Abs });
+
+    // percent-level aggregates
+    const budgetYearPct = hardPct + softPct + adjustedOpexPct;
+    const budget10Pct = hardPct + softPct + 7.36 * adjustedOpexPct;
+
+    console.log("📊 Budgets (Percent)", { budgetYearPct, budget10Pct });
+    console.groupEnd();
+
+    return {
+      hardPct, softPct, opexPct, adjustedOpexPct,
+      hardAbs, softAbs, opexAbs,
+      budgetYearAbs, budget10Abs,
+      budgetYearPct, budget10Pct
+    };
+  }, [applyDSell, costSource]);
+
+
+
 
 
   // Track active credits (all enabled by default)
@@ -90,15 +198,30 @@ export default function Dashboard() {
         (!ownershipFilter || ownershipFilter === "All" || d.ownershipSensitivity === ownershipFilter)
       )
       .map((d) => {
-        const adjustedOpex = applyDSell(d.ownershipSensitivity, d.opexCosts);
+        // compute both percent and absolute values
+        const imp = calculateImpacts(d);
+
         return {
           ...d,
-          opexCosts: adjustedOpex,
-          budgetYearImpact: d.hard + d.soft + adjustedOpex,
-          budget10YrImpact: (7.36 * adjustedOpex) + d.hard + d.soft,
+          // keep original percent fields too (as decimals)
+          hardPct: imp.hardPct,
+          softPct: imp.softPct,
+          opexPct: imp.opexPct,
+          adjustedOpexPct: imp.adjustedOpexPct,
+
+          // absolute numbers
+          hardAbs: imp.hardAbs,
+          softAbs: imp.softAbs,
+          opexAbs: imp.opexAbs,
+          budgetYearAbs: imp.budgetYearAbs,
+          budget10Abs: imp.budget10Abs,
+
+          // percent aggregates for UI if needed
+          budgetYearPct: imp.budgetYearPct,
+          budget10Pct: imp.budget10Pct
         };
       });
-  }, [selectedCategory, multiCategories, scenarioFilter, targetFilter, tierFilter, ownershipFilter, applyDSell]);
+  }, [selectedCategory, multiCategories, scenarioFilter, targetFilter, tierFilter, ownershipFilter, calculateImpacts]);
 
 
 
@@ -115,13 +238,24 @@ export default function Dashboard() {
     const totalCredits = activeItems.reduce((sum, d) => sum + (d.credits || 0), 0);
     const activeCount = activeItems.length;
 
-    const hard = activeItems.reduce((sum, d) => sum + (d.hard || 0), 0);
-    const soft = activeItems.reduce((sum, d) => sum + (d.soft || 0), 0);
-    const opex = activeItems.reduce((sum, d) => sum + (d.opexCosts || 0), 0);
+    const hard = activeItems.reduce((sum, d) => sum + (costView === "absolute" ? (d.hardAbs || 0) : (d.hardPct || 0)), 0);
+    const soft = activeItems.reduce((sum, d) => sum + (costView === "absolute" ? (d.softAbs || 0) : (d.softPct || 0)), 0);
+    const opex = activeItems.reduce((sum, d) => sum + (costView === "absolute" ? (d.opexAbs || 0) : (d.adjustedOpexPct || 0)), 0);
 
     // Apply formulas
-    const budget1 = hard + soft + opex;
-    const budget10 = (7.36 * opex) + hard + soft;
+    // const budget1 = hard + soft + opex;
+    // const budget10 = (7.36 * opex) + hard + soft;
+    const budget1 = activeItems.reduce(
+      (sum, d) => sum + (costView === "absolute" ? d.budgetYearAbs : d.budgetYearPct),
+      0
+    );
+
+    const budget10 = activeItems.reduce(
+      (sum, d) => sum + (costView === "absolute" ? d.budget10Abs : d.budget10Pct),
+      0
+    );
+
+
     const position = activeItems.reduce((sum, d) => sum + (d.position || 0), 0);
     console.log("Total Credits:", totalCredits);
     console.log("Hard Costs:", hard);
@@ -135,9 +269,10 @@ export default function Dashboard() {
     const totalCapex = hard + soft;
 
     const totalOpexImpact = activeItems.reduce(
-      (sum, d) => sum + (d.budget10YrImpact || 0),
+      (sum, d) => sum + (costView === "absolute" ? d.budget10Abs : d.budget10Pct),
       0
     );
+
     const totalAssetValue = activeItems.reduce(
       (sum, d) => sum + (d?.valuePremium ?? 0),
       0
@@ -145,9 +280,13 @@ export default function Dashboard() {
 
     // Counts how many items have a negative budget10YrImpact
     //  (interpreted as "positive impact" for the business, since reducing costs is favorable
+    // const positiveImpactCredits = activeItems.filter(
+    //   (d) => d?.budget10YrImpact < 0
+    // ).length;
     const positiveImpactCredits = activeItems.filter(
-      (d) => d?.budget10YrImpact < 0
+      (d) => (costView === "absolute" ? d.budget10Abs : d.budget10Pct) < 0
     ).length;
+
     const positiveImpactPercentage = totalCredits
       ? (positiveImpactCredits / totalCredits) * 100
       : 0;
@@ -173,7 +312,7 @@ export default function Dashboard() {
       impactPct: total ? (budget10 / total) * 100 : 0,
       positionPct: total ? (position / total) * 100 : 0,
     };
-  }, [filteredCards, activeCredits]);
+  }, [filteredCards, activeCredits, costView]);
 
   // Toggle individual credit on/off
   const toggleCredit = (creditName) => {
@@ -184,10 +323,19 @@ export default function Dashboard() {
   };
 
   // Prepare data for scenario comparison modal
-  const baselineData = leedData.filter(
-    (d) => d.leedOrBau === "Baseline Best Practice"
-  );
-  const optimizedData = leedData.filter((d) => d.leedOrBau === "LEED-Induced");
+  // const baselineData = leedData.filter(
+  //   (d) => d.leedOrBau === "Baseline Best Practice"
+  // );
+  // const optimizedData = leedData.filter((d) => d.leedOrBau === "LEED-Induced");
+
+  const baselineData = leedData
+    .filter((d) => d.leedOrBau === "Baseline Best Practice")
+    .map((d) => ({ ...d, ...calculateImpacts(d) }));
+
+  const optimizedData = leedData
+    .filter((d) => d.leedOrBau === "LEED-Induced")
+    .map((d) => ({ ...d, ...calculateImpacts(d) }));
+
 
 
   return (
@@ -247,6 +395,24 @@ export default function Dashboard() {
               <button onClick={() => setCostView("percent")} className={costView === "percent" ? "font-semibold" : "text-sm"}>% View</button>
               <button onClick={() => setCostView("absolute")} className={costView === "absolute" ? "font-semibold" : "text-sm"}>Absolute</button>
             </div>
+
+            <div className="flex items-center space-x-2">
+              <Switch
+                checked={costSource === "REFINED"}
+                onChange={(v) => setCostSource(v ? "REFINED" : "RAW")}
+                className={`${costSource === "REFINED" ? "bg-purple-600" : "bg-gray-300"}
+      relative inline-flex h-6 w-11 items-center rounded-full`}
+              >
+                <span
+                  className={`${costSource === "REFINED" ? "translate-x-6" : "translate-x-1"}
+        inline-block h-4 w-4 transform bg-white rounded-full transition`}
+                />
+              </Switch>
+              <span className="text-sm text-gray-700">
+                {costSource === "REFINED" ? "Refined" : "Raw"}
+              </span>
+            </div>
+
 
 
             {/* Target Filter */}
@@ -309,12 +475,12 @@ export default function Dashboard() {
         </div>
 
         {/* Financial Summary Cards */}
-        <FinancialSummary totals={totals} />
+        <FinancialSummary totals={totals} costView={costView} />
 
 
 
         {/* Waterfall Chart Visualization */}
-        <WaterfallChart totals={totals} />
+        <WaterfallChart totals={totals} costView={costView} />
 
         <div className="flex justify-center mt-6 mb-8">
           <button
@@ -377,6 +543,7 @@ export default function Dashboard() {
               showCommercialData={showCommercial}
               isActive={activeCredits[item.creditName]}
               onToggle={() => toggleCredit(item.creditName)}
+              costView={costView}   // ⬅️ add this
             />
           ))}
         </div>

@@ -2,7 +2,7 @@ import { FaCheckCircle, FaExclamationTriangle, FaTimesCircle } from "react-icons
 import { Switch } from "@headlessui/react";
 import { motion } from "framer-motion";
 
-export default function Card({ item, showCommercialData, isActive, onToggle }) {
+export default function Card({ item, showCommercialData, isActive, onToggle, costView }) {
   const verdictColor = item.elevx.includes("Required") || item.elevx.includes("Net Positive") ||
     item.elevx.includes("Positive Outcome") || item.elevx.includes("Favourable")
     ? "bg-green-100 text-green-800"
@@ -93,25 +93,25 @@ export default function Card({ item, showCommercialData, isActive, onToggle }) {
       {/* Metrics */}
       <div className="grid grid-cols-2 gap-y-3 text-sm mb-5">
         {[
-          ["Hard Cost", item.hard],
-          ["Soft Cost", item.soft],
-          ["OpEx Impact", item.opexCosts],
-          ["Budget Impact", item.budgetYearImpact],
-          ["10-Year Impact", item.budget10YrImpact],
-          ["Position", item.position],
+          ["Hard Cost", costView === "absolute" ? item.hardAbs : item.hard],
+          ["Soft Cost", costView === "absolute" ? item.softAbs : item.soft],
+          ["OpEx Impact", costView === "absolute" ? item.opexAbs : item.opexCosts],
+          ["Budget Impact", costView === "absolute" ? item.budgetYearAbs : item.budgetYearImpact],
+          ["10-Year Impact", costView === "absolute" ? item.budget10Abs : item.budget10YrImpact],
+          ["Position", item.position], // stays same
         ].map(([label, value], i) => (
           <div key={i} className="flex flex-col">
             <span className="text-gray-500">{label}</span>
-            <span className="font-semibold text-gray-800">{value.toFixed(2)}%</span>
+            <span className="font-semibold text-gray-800">
+              {costView === "absolute"
+                ?  value.toFixed(2)
+                : `${value.toFixed(2)}%`}
+            </span>
           </div>
         ))}
-        {showCommercialData && (
-          <div>
-            <span className="text-gray-500">Credits</span>
-            <span className="font-semibold text-gray-800">{item.credits}</span>
-          </div>
-        )}
       </div>
+
+
 
       {/* Commercial Label */}
       {showCommercialData && item.commercialLabel && (

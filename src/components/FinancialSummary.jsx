@@ -1,7 +1,7 @@
 import FinancialCard from "./FinancialCard";
 import { motion } from "framer-motion";
 
-export default function FinancialSummary({ totals }) {
+export default function FinancialSummary({ totals, costView }) {
     const colorByValue = (value) =>
         value <= 0 ? "text-green-600" : "text-amber-500";
 
@@ -24,7 +24,7 @@ export default function FinancialSummary({ totals }) {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.05, duration: 0.4 }}
                 >
-                    <FinancialCard {...card} />
+                    <FinancialCard {...card} costView={costView} />
                 </motion.div>
             ))}
         </div>

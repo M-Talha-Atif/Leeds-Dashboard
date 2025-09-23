@@ -11,7 +11,7 @@ import {
   Cell
 } from "recharts";
 
-export default function WaterfallChart({ totals }) {
+export default function WaterfallChart({ totals, costView }) {
   // Updated color scheme to match financial waterfall
   const colors = {
     positive: "#f59e0b", // Amber-500 for > 0
@@ -162,7 +162,11 @@ export default function WaterfallChart({ totals }) {
           />
 
           <YAxis
-            tickFormatter={(value) => `${value.toFixed(2)}%`}
+            tickFormatter={(value) =>
+              costView === "absolute"
+                ? value
+                : `${value.toFixed(2)}%`
+            }
             tick={{ fill: "#6b7280", fontSize: 12 }}
             axisLine={false}
             tickLine={false}
@@ -177,13 +181,11 @@ export default function WaterfallChart({ totals }) {
               return (
                 <div className="bg-white p-3 shadow-lg rounded-lg border border-gray-200">
                   <p className="font-semibold">{data.name}</p>
-                  <p className={`mt-1 font-bold ${data.value >= 0 ? "text-amber-500" : "text-green-600"
-                    }`}>
-                    {data.value >= 0 ? "+" : ""}{data.value.toFixed(2)}%
+                  <p className={`mt-1 font-bold ${data.value >= 0 ? "text-amber-500" : "text-green-600"}`}>
+                    {costView === "absolute"
+                      ? data.value
+                      : `${data.value >= 0 ? "+" : ""}${data.value.toFixed(2)}%`}
                   </p>
-                  {/* <p className="text-sm text-gray-600">
-                    Cumulative: {data.cumulative.toFixed(2)}%
-                  </p> */}
                 </div>
               );
             }}
@@ -201,7 +203,11 @@ export default function WaterfallChart({ totals }) {
             <LabelList
               dataKey="value"
               position="top"
-              formatter={(value) => `${value >= 0 ? "+" : ""}${value.toFixed(2)}%`}
+              formatter={(value) =>
+                costView === "absolute"
+                  ? value
+                  : `${value >= 0 ? "+" : ""}${value.toFixed(2)}%`
+              }
               fill="#374151"
               fontSize={12}
             />

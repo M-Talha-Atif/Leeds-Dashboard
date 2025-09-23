@@ -15,7 +15,10 @@ export const leedData = [
     commercialLabel: "✅ Net Cost Saving",
     elevx: "✅ Required – High Strategic Value",
     tier: "Tier 1",
-    ownershipSensitivity: "Mixed (Community + Buildings)" 
+    ownershipSensitivity: "Mixed (Community + Buildings)",
+    costSource: "REFINED",
+    assetClass: "Community + ALL",
+    impactScope: "Project Wide"
   },
   {
     category: "Integrated Process",
@@ -33,7 +36,10 @@ export const leedData = [
     commercialLabel: "✅ Low Additional CapEx",
     elevx: "✅ Net Positive Investment",
     tier: "Tier 1",
-    ownershipSensitivity: "Building O&M" 
+    ownershipSensitivity: "Building O&M",
+    costSource: "REFINED",
+    assetClass: "Community + ALL",
+    impactScope: "Project Wide"
     
   },
   {
@@ -52,7 +58,10 @@ export const leedData = [
     commercialLabel: "⚠️ Moderate CapEx – ROI Case Needed",
     elevx: "✅ Required – Certification Only",
     tier: "Tier 3",
-    ownershipSensitivity: "Community-only O&M" 
+    ownershipSensitivity: "Community-only O&M",
+    costSource: "REFINED",
+    assetClass: "Community",
+    impactScope: "Community Only"
   },
   {
     category: "Natural Systems and Ecology",
@@ -70,7 +79,10 @@ export const leedData = [
     commercialLabel: "✅ Low Additional CapEx",
     elevx: "✅ Required – Certification Only",
     tier: "Tier 3",
-    ownershipSensitivity: "Mixed (Community + Buildings)" 
+    ownershipSensitivity: "Mixed (Community + Buildings)",
+    costSource: "REFINED",
+    assetClass: "Community + ALL",
+    impactScope: "Project Wide"
   },
   {
     category: "Natural Systems and Ecology",
@@ -88,7 +100,11 @@ export const leedData = [
     commercialLabel: "⚠️ Elevated CapEx – Strategic Review Required",
     elevx: "✅ Required – High Strategic Value",
     tier: "Tier 1",
-    ownershipSensitivity: "Community-only O&M"
+    ownershipSensitivity: "Community-only O&M",
+    costSource: "REFINED",
+    assetClass: "Community",
+    impactScope: "Community Only"
+
   },
   {
     category: "Natural Systems and Ecology",
@@ -106,7 +122,10 @@ export const leedData = [
     commercialLabel: "⚠️ Moderate CapEx – ROI Case Needed",
     elevx: "✅ Commercially Justified",
     tier: "Tier 3",
-    ownershipSensitivity: "Community-only O&M"
+    ownershipSensitivity: "Community-only O&M",
+    costSource: "REFINED",
+    assetClass: "Community",
+    impactScope: "Community Only"
   },
   {
     category: "Natural Systems and Ecology",
@@ -124,7 +143,10 @@ export const leedData = [
     commercialLabel: "⚠️ Moderate CapEx – ROI Case Needed",
     elevx: "✅ Positive Outcome – Commercially Favourable",
     tier: "Tier 3",
-    ownershipSensitivity: "Community-only O&M"
+    ownershipSensitivity: "Community-only O&M",
+    costSource: "REFINED",
+    assetClass: "Community",
+    impactScope: "Community Only"
   },
   {
     category: "Natural Systems and Ecology",
@@ -142,7 +164,10 @@ export const leedData = [
     commercialLabel: "⚠️ Moderate CapEx – ROI Case Needed",
     elevx: "✅ Net Positive Investment",
     tier: "Tier 1",
-    ownershipSensitivity: "Community-only O&M"
+    ownershipSensitivity: "Community-only O&M",
+    costSource: "REFINED",
+    assetClass: "Community",
+    impactScope: "Community Only"
   },
   {
     category: "Transport",
@@ -160,7 +185,10 @@ export const leedData = [
     commercialLabel: "❌ High Cost – Needs Strong Strategic Rationale",
     elevx: "✅ Commercially Justified",
     tier: "Tier 2",
-    ownershipSensitivity: "Community-only O&M"
+    ownershipSensitivity: "Community-only O&M",
+    costSource: "REFINED",
+    assetClass: "Community + ALL",
+    impactScope: "Project Wide"
   },
   {
     category: "Transport",
@@ -178,7 +206,10 @@ export const leedData = [
     commercialLabel: "⚠️ Higher Cost, Requires ROI Justification",
     elevx: "✅ Net Positive Investment",
     tier: "Tier 1",
-    ownershipSensitivity: "Community-only O&M"
+    ownershipSensitivity: "Community-only O&M",
+    costSource: "REFINED",
+    assetClass: "Community + ALL",
+    impactScope: "Project Wide"
   },
   {
     category: "Transport",
@@ -196,7 +227,10 @@ export const leedData = [
     commercialLabel: "❌ High Cost – Needs Strong Strategic Rationale",
     elevx: "⚠️ Minor Net Gain – Proceed if Strategically Aligned",
     tier: "Tier 2",
-    ownershipSensitivity: "Community-only O&M"
+    ownershipSensitivity: "Community-only O&M",
+    costSource: "REFINED",
+    assetClass: "Community + ALL",
+    impactScope: "Project Wide"
   },
   {
     category: "Transport",
@@ -214,7 +248,10 @@ export const leedData = [
     commercialLabel: "⚠️ Higher Cost, Requires ROI Justification",
     elevx: "⚠️ Minor Net Gain – Proceed if Strategically Aligned",
     tier: "Tier 2",
-    ownershipSensitivity: "Community-only O&M"
+    ownershipSensitivity: "Community-only O&M",
+    costSource: "REFINED",
+    assetClass: "Community",
+    impactScope: "Community Only"
   },
   {
     category: "Transport",
@@ -232,7 +269,10 @@ export const leedData = [
     commercialLabel: "⚠️ Higher Cost, Requires ROI Justification",
     elevx: "✅ Net Positive Investment",
     tier: "Tier 1",
-    ownershipSensitivity: "Community-only O&M"
+    ownershipSensitivity: "Community-only O&M",
+    costSource: "REFINED",
+    assetClass: "Community + ALL",
+    impactScope: "Project Wide"
   },
   {
     category: "Transport",
@@ -250,7 +290,10 @@ export const leedData = [
     commercialLabel: "✅ Strong Commercial Case",
     elevx: "✅ Commercially Justified",
     tier: "Tier 2",
-    ownershipSensitivity: "Community-only O&M"
+    ownershipSensitivity: "Community-only O&M",
+    costSource: "REFINED",
+    assetClass: "Community",
+    impactScope: "Community Only"
   },
   {
     category: "Water Efficiency",
@@ -268,7 +311,10 @@ export const leedData = [
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "✅ Required – High Strategic Value",
     tier: "Tier 1",
-    ownershipSensitivity: "Mixed (Community + Buildings)" 
+    ownershipSensitivity: "Mixed (Community + Buildings)",
+    costSource: "REFINED",
+    assetClass: "Community + ALL",
+    impactScope: "Project Wide"
   },
   {
     category: "Water Efficiency",
@@ -286,7 +332,10 @@ export const leedData = [
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "✅ Required – High Strategic Value",
     tier: "Tier 1",
-    ownershipSensitivity: "Mixed (Community + Buildings)" 
+    ownershipSensitivity: "Mixed (Community + Buildings)",
+    costSource: "REFINED",
+    assetClass: "Community + ALL",
+    impactScope: "Project Wide"
   },
   {
     category: "Water Efficiency",
@@ -304,7 +353,10 @@ export const leedData = [
     commercialLabel: "⚠️ Higher Cost, Requires ROI Justification",
     elevx: "✅ Net Positive Investment",
     tier: "Tier 1",
-    ownershipSensitivity: "Mixed (Community + Buildings)" 
+    ownershipSensitivity: "Mixed (Community + Buildings)",
+    costSource: "REFINED",
+    assetClass: "Community + ALL",
+    impactScope: "Project Wide"
   },
   {
     category: "Water Efficiency",
@@ -322,7 +374,10 @@ export const leedData = [
     commercialLabel: "⚠️ Higher Cost, Requires ROI Justification",
     elevx: "✅ Net Positive Investment",
     tier: "Tier 1",
-    ownershipSensitivity: "Mixed (Community + Buildings)" 
+    ownershipSensitivity: "Mixed (Community + Buildings)",
+    costSource: "REFINED",
+    assetClass: "Community + ALL",
+    impactScope: "Project Wide"
   },
   {
     category: "Water Efficiency",
@@ -340,7 +395,10 @@ export const leedData = [
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "✅ Net Positive Investment",
     tier: "Tier 1",
-    ownershipSensitivity: "Mixed (Community + Buildings)" 
+    ownershipSensitivity: "Mixed (Community + Buildings)",
+    costSource: "REFINED",
+    assetClass: "Community + ALL",
+    impactScope: "Project Wide"
   },
   {
     category: "Energy and Greenhouse Gas Emissions",
@@ -358,7 +416,10 @@ export const leedData = [
     commercialLabel: "✅ Net Positive Investment",
     elevx: "✅ Net Positive Investment",
     tier: "Tier 1",
-    ownershipSensitivity: "Mixed (Community + Buildings)" 
+    ownershipSensitivity: "Mixed (Community + Buildings)",
+    costSource: "REFINED",
+    assetClass: "Community + ALL",
+    impactScope: "Project Wide"
   },
   {
     category: "Energy and Greenhouse Gas Emissions",
@@ -376,7 +437,10 @@ export const leedData = [
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "✅ Required – High Strategic Value",
     tier: "Tier 1",
-    ownershipSensitivity: "Mixed (Community + Buildings)" 
+    ownershipSensitivity: "Mixed (Community + Buildings)",
+    costSource: "REFINED",
+    assetClass: "Community + ALL",
+    impactScope: "Project Wide"
   },
   {
     category: "Energy and Greenhouse Gas Emissions",
@@ -394,7 +458,10 @@ export const leedData = [
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "✅ Net Positive Investment",
     tier: "Tier 1",
-    ownershipSensitivity: "Community-only O&M"
+    ownershipSensitivity: "Community-only O&M",
+    costSource: "REFINED",
+    assetClass: "Community",
+    impactScope: "Community Only"
   },
   {
     category: "Energy and Greenhouse Gas Emissions",
@@ -412,7 +479,10 @@ export const leedData = [
     commercialLabel: "❌ High Cost – Needs Strong Strategic Rationale",
     elevx: "✅ Net Positive Investment",
     tier: "Tier 2",
-    ownershipSensitivity: "Community-only O&M"
+    ownershipSensitivity: "Community-only O&M",
+    costSource: "REFINED",
+    assetClass: "Community",
+    impactScope: "Community Only"
   },
   {
     category: "Energy and Greenhouse Gas Emissions",
@@ -430,7 +500,10 @@ export const leedData = [
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "⚠️ Minor Net Gain – Proceed if Strategically Aligned",
     tier: "Tier 2",
-    ownershipSensitivity: "Community-only O&M"
+    ownershipSensitivity: "Community-only O&M",
+    costSource: "REFINED",
+    assetClass: "Community",
+    impactScope: "Community Only"
   },
   {
     category: "Materials and Resources",
@@ -448,7 +521,10 @@ export const leedData = [
     commercialLabel: "✅ Strong Commercial Case",
     elevx: "✅ Required – Certification Only",
     tier: "Tier 3",
-    ownershipSensitivity: "Mixed (Community + Buildings)" 
+    ownershipSensitivity: "Mixed (Community + Buildings)",
+    costSource: "REFINED",
+    assetClass: "Community + ALL",
+    impactScope: "Project Wide"
   },
   {
     category: "Materials and Resources",
@@ -466,7 +542,10 @@ export const leedData = [
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "✅ Required – High Strategic Value",
     tier: "Tier 1",
-    ownershipSensitivity: "Community-only O&M"
+    ownershipSensitivity: "Community-only O&M",
+    costSource: "REFINED",
+    assetClass: "Community",
+    impactScope: "Community Only"
   },
   {
     category: "Materials and Resources",
@@ -484,7 +563,10 @@ export const leedData = [
     commercialLabel: "✅ Strong Commercial Case",
     elevx: "✅ Commercially Justified",
     tier: "Tier 2",
-    ownershipSensitivity: "Community-only O&M"
+    ownershipSensitivity: "Community-only O&M",
+    costSource: "REFINED",
+    assetClass: "Community",
+    impactScope: "Community Only"
   },
   {
     category: "Materials and Resources",
@@ -502,7 +584,10 @@ export const leedData = [
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "✅ Positive Outcome – Commercially Favourable",
     tier: "Tier 2",
-    ownershipSensitivity: "Community-only O&M"
+    ownershipSensitivity: "Community-only O&M",
+    costSource: "REFINED",
+    assetClass: "Community",
+    impactScope: "Community Only"
   },
   {
     category: "Materials and Resources",
@@ -520,7 +605,10 @@ export const leedData = [
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "✅ Commercially Justified",
     tier: "Tier 2",
-    ownershipSensitivity: "Community-only O&M"
+    ownershipSensitivity: "Community-only O&M",
+    costSource: "REFINED",
+    assetClass: "Community + ALL",
+    impactScope: "Project Wide",
   },
   {
     category: "Materials and Resources",
@@ -538,7 +626,10 @@ export const leedData = [
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "✅ Net Positive Investment",
     tier: "Tier 1",
-    ownershipSensitivity: "Community-only O&M"
+    ownershipSensitivity: "Community-only O&M",
+    costSource: "REFINED",
+    assetClass: "Community",
+    impactScope: "Community Only"
   },
   {
     category: "Quality of Life",
@@ -556,7 +647,10 @@ export const leedData = [
     commercialLabel: "✅ Strong Commercial Case",
     elevx: "✅ Required – Certification Only",
     tier: "Tier 3",
-    ownershipSensitivity: "Community-only O&M"
+    ownershipSensitivity: "Community-only O&M",
+    costSource: "REFINED",
+    assetClass: "Community",
+    impactScope: "Community Only"
   },
   {
     category: "Quality of Life",
@@ -574,7 +668,10 @@ export const leedData = [
     commercialLabel: "✅ Strong Commercial Case",
     elevx: "✅ Required – High Strategic Value",
     tier: "Tier 1",
-    ownershipSensitivity: "Mixed (Community + Buildings)" 
+    ownershipSensitivity: "Mixed (Community + Buildings)",
+    costSource: "REFINED",
+    assetClass: "Community + ALL",
+    impactScope: "Project Wide",
   },
   {
     category: "Quality of Life",
@@ -592,7 +689,10 @@ export const leedData = [
     commercialLabel: "✅ Strong Commercial Case",
     elevx: "✅ Commercially Justified",
     tier: "Tier 2",
-    ownershipSensitivity: "Mixed (Community + Buildings)" 
+    ownershipSensitivity: "Mixed (Community + Buildings)",
+    costSource: "REFINED",
+    assetClass: "Community + ALL",
+    impactScope: "Project Wide",
   },
   {
     category: "Quality of Life",
@@ -610,7 +710,10 @@ export const leedData = [
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "✅ Positive Outcome – Commercially Favourable",
     tier: "Tier 2",
-    ownershipSensitivity: "Community-only O&M"
+    ownershipSensitivity: "Community-only O&M",
+    costSource: "REFINED",
+    assetClass: "Community",
+    impactScope: "Community Only",
   },
   {
     category: "Quality of Life",
@@ -628,7 +731,10 @@ export const leedData = [
     commercialLabel: "✅ Strong Commercial Case",
     elevx: "✅ Commercially Justified",
     tier: "Tier 2",
-    ownershipSensitivity: "Community-only O&M"
+    ownershipSensitivity: "Community-only O&M",
+    costSource: "REFINED",
+    assetClass: "Community",
+    impactScope: "Community Only",
   },
   {
     category: "Innovation",
@@ -646,7 +752,10 @@ export const leedData = [
     commercialLabel: "✅ Net Positive Investment",
     elevx: "✅ Net Positive Investment",
     tier: "Tier 1",
-    ownershipSensitivity: "Building O&M"
+    ownershipSensitivity: "Building O&M",
+    costSource: "REFINED",
+    assetClass: "Community + ALL",
+    impactScope: "Buildings Only"
   },
   {
     category: "Innovation",
@@ -664,7 +773,10 @@ export const leedData = [
     commercialLabel: "⚠️ Higher Cost, Requires ROI Justification",
     elevx: "✅ Net Positive Investment",
     tier: "Tier 1",
-    ownershipSensitivity: "Community-only O&M"
+    ownershipSensitivity: "Community-only O&M",
+    costSource: "REFINED",
+    assetClass: "Community + ALL",
+    impactScope: "Project Wide",
   },
   {
     category: "Innovation",
@@ -682,7 +794,10 @@ export const leedData = [
     commercialLabel: "✅ Strong Commercial Case",
     elevx: "✅ Commercially Justified",
     tier: "Tier 2",
-    ownershipSensitivity: "N/A"
+    ownershipSensitivity: "N/A",
+    costSource: "REFINED",
+    assetClass: "Community",
+    impactScope: "Project Wide",
   },
   {
     category: "Innovation",
@@ -700,7 +815,10 @@ export const leedData = [
     commercialLabel: "✅ Strong Commercial Case",
     elevx: "✅ Commercially Justified",
     tier: "Tier 2",
-    ownershipSensitivity: "N/A"
+    ownershipSensitivity: "N/A",
+    costSource: "REFINED",
+    assetClass: "Community",
+    impactScope: "Project Wide",
   },
   {
     category: "Innovation",
@@ -718,7 +836,10 @@ export const leedData = [
     commercialLabel: "✅ Viable with Clear Benefits",
     elevx: "⚠️ Minor Net Gain – Proceed if Strategically Aligned",
     tier: "Tier 2",
-    ownershipSensitivity: "Mixed (Community + Buildings)" 
+    ownershipSensitivity: "Mixed (Community + Buildings)",
+    costSource: "REFINED",
+    assetClass: "Community + ALL",
+    impactScope: "Project Wide",
   },
   {
     category: "Regional Priority",
@@ -736,7 +857,10 @@ export const leedData = [
     commercialLabel: "✅ Strong Commercial Case",
     elevx: "✅ Positive Outcome – Commercially Favourable",
     tier: "Tier 2",
-    ownershipSensitivity: "Mixed (Community + Buildings)" 
+    ownershipSensitivity: "Mixed (Community + Buildings)",
+    costSource: "REFINED",
+    assetClass: "Community + ALL",
+    impactScope: "Project Wide",
   },
   {
     category: "Regional Priority",
@@ -754,6 +878,9 @@ export const leedData = [
     commercialLabel: "✅ Strong Commercial Case",
     elevx: "✅ Positive Outcome – Commercially Favourable",
     tier: "Tier 2",
-    ownershipSensitivity: "Mixed (Community + Buildings)" 
+    ownershipSensitivity: "Mixed (Community + Buildings)",
+    costSource: "REFINED",
+    assetClass: "Community+All",
+    impactScope: "Project Wide",
   }
 ];

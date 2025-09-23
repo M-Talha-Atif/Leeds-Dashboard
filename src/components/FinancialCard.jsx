@@ -38,18 +38,26 @@ const colorMap = {
 export default function FinancialCard({
   label,
   value,
-  subValue,
   icon: Icon,
   bgGradient,
   textColor,
   tooltip,
-  isPercentage
+  isPercentage,
+  costView
 }) {
   const count = useMotionValue(0);
+  // const rounded = useTransform(count, (latest) => {
+  //   const fixed = Math.round(latest * 100) / 100;
+  //   return isPercentage ? `${fixed.toFixed(2)}%` : fixed.toLocaleString();
+  // });
+
   const rounded = useTransform(count, (latest) => {
     const fixed = Math.round(latest * 100) / 100;
-    return isPercentage ? `${fixed.toFixed(2)}%` : fixed.toLocaleString();
+    return costView === "absolute"
+      ? fixed
+      :  isPercentage ? `${fixed.toFixed(2)}%` : fixed.toLocaleString();
   });
+
 
   useEffect(() => {
     const controls = animate(count, value, {
