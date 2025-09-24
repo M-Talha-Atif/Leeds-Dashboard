@@ -205,7 +205,7 @@ export default function WaterfallChart({ totals, costView }) {
               position="top"
               formatter={(value) =>
                 costView === "absolute"
-                  ? value
+                  ? value.toFixed(2)
                   : `${value >= 0 ? "+" : ""}${value.toFixed(2)}%`
               }
               fill="#374151"

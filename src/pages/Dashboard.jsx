@@ -67,18 +67,26 @@ export default function Dashboard() {
   }, [dSellOn]);
 
   const normalizeAssetClass = (assetClass, costSource) => {
+    console.log(assetClass)
     if (!assetClass) return "Community + ALL";
 
-    // Handle special REFINE rule: Community / Community+All → Community + ALL
-    if ((assetClass === "Community" || assetClass === "Community+All") && costSource === "REFINED") {
-      return "Community + ALL";
-    }
-
-    // Normalize variants (if data has "Community+All", map to "Community + ALL")
-    if (assetClass === "Community+All") return "Community + ALL";
-
+    if (costSource === "REFINED") {
+      // force everything into "Community + ALL"
+      if (assetClass === "Community" || assetClass === "Community + ALL") {
+        console.log(true)
+        return "Community + ALL";
+      }
+    } 
+    console.log("after")
     return assetClass;
   };
+
+
+  const normalizeAssetClassForHardAnSoft = () => {
+     return "Community + ALL";;
+  };
+
+   
 
 
   const calculateImpacts = useCallback((d) => {
@@ -98,13 +106,15 @@ export default function Dashboard() {
     });
 
     // asset class lookup
-    const lookupAsset = normalizeAssetClass(d.assetClass, d.costSource);
+    const lookupAsset = normalizeAssetClass(d.assetClass, costSource);
+
+    console.log(lookupAsset)
 
 
     console.log("🏷️ Lookup Asset:", lookupAsset);
 
-    const hardBase = baselineCosts.hard[lookupAsset] ?? 0;
-    const softBase = baselineCosts.soft[lookupAsset] ?? 0;
+    const hardBase = baselineCosts.hard[normalizeAssetClassForHardAnSoft()] ?? 0;
+    const softBase = baselineCosts.soft[normalizeAssetClassForHardAnSoft()] ?? 0;
     const opexBase = baselineCosts.opex[lookupAsset] ?? 0;
 
     console.log("📌 Baseline Costs", { hardBase, softBase, opexBase });
@@ -119,14 +129,17 @@ export default function Dashboard() {
 
     // absolute amounts
     const hardAbs = isRefined
-      ? (hardPct / 100) * hardBase
-      : (d.rawHard != null ? Number(d.rawHard) : hardPct * hardBase);
+      ? hardPct * hardBase                // already normalized in parsePct
+      : (d.rawHard != null ? Number(d.rawHard) : (hardPct/100) * hardBase);
 
     const softAbs = isRefined
-      ? (softPct / 100) * softBase
-      : (d.rawSoft != null ? Number(d.rawSoft) : softPct * softBase);
+      ? softPct * softBase
+      : (d.rawSoft != null ? Number(d.rawSoft) : (softPct/100) * softBase);
 
-    const opexAbs = isRefined ? (adjustedOpexPct / 100) * opexBase : (adjustedOpexPct) * opexBase;
+    const opexAbs = isRefined ? (adjustedOpexPct / 100) * opexBase : (adjustedOpexPct / 100) * opexBase;
+
+
+
 
     console.log("💵 Absolute Costs", { hardAbs, softAbs, opexAbs });
 
@@ -142,11 +155,19 @@ export default function Dashboard() {
     console.log("📊 Budgets (Percent)", { budgetYearPct, budget10Pct });
     console.groupEnd();
 
+    const position = (budget10Pct) - (0.5 * (d.valuePremium ?? 0));
+
+    // const position =  (d.budget10YrImpact) - (0.5 * (d.valuePremium ?? 0));
+
+
+
     return {
       hardPct, softPct, opexPct, adjustedOpexPct,
       hardAbs, softAbs, opexAbs,
       budgetYearAbs, budget10Abs,
-      budgetYearPct, budget10Pct
+      budgetYearPct, budget10Pct,
+      position
+
     };
   }, [applyDSell, costSource]);
 
@@ -218,7 +239,10 @@ export default function Dashboard() {
 
           // percent aggregates for UI if needed
           budgetYearPct: imp.budgetYearPct,
-          budget10Pct: imp.budget10Pct
+          budget10Pct: imp.budget10Pct,
+
+          // position
+          position: imp.position
         };
       });
   }, [selectedCategory, multiCategories, scenarioFilter, targetFilter, tierFilter, ownershipFilter, calculateImpacts]);
@@ -257,6 +281,7 @@ export default function Dashboard() {
 
 
     const position = activeItems.reduce((sum, d) => sum + (d.position || 0), 0);
+    // const position = budget10 - (0.5 * d.valuePremium)
     console.log("Total Credits:", totalCredits);
     console.log("Hard Costs:", hard);
     console.log("Soft Costs:", soft);
