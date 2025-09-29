@@ -13,7 +13,7 @@ The **LEED Certification Dashboard** empowers project teams, architects, and sus
 
 * Assess financial impacts of LEED credits
 * Compare multiple certification scenarios
-* Forecast short- and long-term budget implications
+* Forecast short and long-term budget implications
 * Make **data-driven decisions** for sustainable building projects
 
 ---
