@@ -418,14 +418,19 @@ export default function Dashboard() {
             {/* Cost View toggle */}
             <div className="flex rounded-xl bg-gray-100 p-1 shadow-sm">
               <button
+                disabled={costSource === "RAW"}
                 onClick={() => setCostView("percent")}
-                className={`flex-1 px-4 py-1.5 rounded-lg text-sm font-medium transition 
-      ${costView === "percent"
-                    ? "bg-blue-600 text-white shadow"
-                    : "text-gray-700 hover:bg-gray-200"}`}
+                className={`flex-1 px-4 py-1.5 rounded-lg text-sm font-medium transition
+    ${costSource === "RAW"
+                    ? "bg-gray-200 text-gray-400 cursor-not-allowed opacity-60"
+                    : costView === "percent"
+                      ? "bg-blue-600 text-white shadow"
+                      : "text-gray-700 hover:bg-gray-200"
+                  }`}
               >
                 % View
               </button>
+
               <button
                 onClick={() => setCostView("absolute")}
                 className={`flex-1 px-4 py-1.5 rounded-lg text-sm font-medium transition 
