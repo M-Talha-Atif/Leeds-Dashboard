@@ -76,17 +76,17 @@ export default function Dashboard() {
         console.log(true)
         return "Community + ALL";
       }
-    } 
+    }
     console.log("after")
     return assetClass;
   };
 
 
   const normalizeAssetClassForHardAnSoft = () => {
-     return "Community + ALL";;
+    return "Community + ALL";;
   };
 
-   
+
 
 
   const calculateImpacts = useCallback((d) => {
@@ -129,12 +129,12 @@ export default function Dashboard() {
 
     // absolute amounts
     const hardAbs = isRefined
-      ? hardPct * hardBase                // already normalized in parsePct
-      : (d.rawHard != null ? Number(d.rawHard) : (hardPct/100) * hardBase);
+      ? (hardPct / 100) * hardBase                // already normalized in parsePct
+      : (d.rawHard != null ? Number(d.rawHard) : (hardPct / 100) * hardBase);
 
     const softAbs = isRefined
-      ? softPct * softBase
-      : (d.rawSoft != null ? Number(d.rawSoft) : (softPct/100) * softBase);
+      ? (softPct / 100) * softBase
+      : (d.rawSoft != null ? Number(d.rawSoft) : (softPct / 100) * softBase);
 
     const opexAbs = isRefined ? (adjustedOpexPct / 100) * opexBase : (adjustedOpexPct / 100) * opexBase;
 
@@ -416,26 +416,41 @@ export default function Dashboard() {
             </div>
 
             {/* Cost View toggle */}
-            <div className="flex items-center gap-2">
-              <button onClick={() => setCostView("percent")} className={costView === "percent" ? "font-semibold" : "text-sm"}>% View</button>
-              <button onClick={() => setCostView("absolute")} className={costView === "absolute" ? "font-semibold" : "text-sm"}>Absolute</button>
+            <div className="flex rounded-xl bg-gray-100 p-1 shadow-sm">
+              <button
+                onClick={() => setCostView("percent")}
+                className={`flex-1 px-4 py-1.5 rounded-lg text-sm font-medium transition 
+      ${costView === "percent"
+                    ? "bg-blue-600 text-white shadow"
+                    : "text-gray-700 hover:bg-gray-200"}`}
+              >
+                % View
+              </button>
+              <button
+                onClick={() => setCostView("absolute")}
+                className={`flex-1 px-4 py-1.5 rounded-lg text-sm font-medium transition 
+      ${costView === "absolute"
+                    ? "bg-blue-600 text-white shadow"
+                    : "text-gray-700 hover:bg-gray-200"}`}
+              >
+                Absolute
+              </button>
             </div>
 
-            <div className="flex items-center space-x-2">
-              <Switch
-                checked={costSource === "REFINED"}
-                onChange={(v) => setCostSource(v ? "REFINED" : "RAW")}
-                className={`${costSource === "REFINED" ? "bg-purple-600" : "bg-gray-300"}
-      relative inline-flex h-6 w-11 items-center rounded-full`}
-              >
-                <span
-                  className={`${costSource === "REFINED" ? "translate-x-6" : "translate-x-1"}
-        inline-block h-4 w-4 transform bg-white rounded-full transition`}
-                />
-              </Switch>
-              <span className="text-sm text-gray-700">
-                {costSource === "REFINED" ? "Refined" : "Raw"}
-              </span>
+
+            <div className="flex items-center gap-2">
+              {["", "REFINED", "RAW"].map((mode) => (
+                <button
+                  key={mode || "DEFAULT"}
+                  onClick={() => setCostSource(mode)}
+                  className={`px-3 py-1 rounded-lg transition
+        ${costSource === mode
+                      ? "bg-blue-600 text-white font-semibold"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
+                >
+                  {mode === "" ? "Default" : mode}
+                </button>
+              ))}
             </div>
 
 
