@@ -54,9 +54,11 @@ export default function FinancialCard({
   const rounded = useTransform(count, (latest) => {
     const fixed = Math.round(latest * 100) / 100;
     return costView === "absolute"
-      ? fixed
+      ? fixed.toLocaleString()
       :  isPercentage ? `${fixed.toFixed(2)}%` : fixed.toLocaleString();
   });
+
+  
 
 
   useEffect(() => {
@@ -101,12 +103,6 @@ export default function FinancialCard({
         className={`text-3xl font-extrabold ${textColor} drop-shadow-sm text-center`}
       >
         <motion.span>{rounded}</motion.span>
-        {/* {subValue !== undefined && (
-          <span className="text-sm text-slate-500 font-medium">
-            {" "}
-            {subValue.toFixed(1)}%
-          </span>
-        )} */}
       </motion.p>
     </motion.div>
   );

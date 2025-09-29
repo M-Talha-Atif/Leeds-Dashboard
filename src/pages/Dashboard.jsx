@@ -113,7 +113,7 @@ export default function Dashboard() {
 
     console.log("🏷️ Lookup Asset:", lookupAsset);
 
-    const hardBase = baselineCosts.hard[normalizeAssetClassForHardAnSoft()] ?? 0;
+    const hardBase = baselineCosts.hard[lookupAsset] ?? 0;
     const softBase = baselineCosts.soft[normalizeAssetClassForHardAnSoft()] ?? 0;
     const opexBase = baselineCosts.opex[lookupAsset] ?? 0;
 
