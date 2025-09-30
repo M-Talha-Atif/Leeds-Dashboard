@@ -29,8 +29,6 @@ export default function Dashboard() {
   const [ownershipFilter, setOwnershipFilter] = useState("");  // filter by ownershipSensitivity
   const [costSource, setCostSource] = useState("REFINED"); // "REFINED" | "RAW"
 
-
-
   const [multiCategories, setMultiCategories] = useState([]);
 
   const [targetFilter, setTargetFilter] = useState("");
@@ -45,14 +43,6 @@ export default function Dashboard() {
     if (s.endsWith("%")) return parseFloat(s.replace("%", "")) / 100;
     return parseFloat(s) || 0;
   };
-
-  // const parsePct = (v) => {
-  //   if (v == null) return 0;
-  //   if (typeof v === "number") return v / 100; // normalize numbers
-  //   const s = String(v).trim();
-  //   if (s.endsWith("%")) return parseFloat(s.replace("%", "")) / 100;
-  //   return (parseFloat(s) || 0) / 100;
-  // };
 
 
   const applyDSell = useCallback((ownership, value) => {
@@ -82,20 +72,13 @@ export default function Dashboard() {
   };
 
 
-  const normalizeAssetClassForHardAnSoft = () => {
-    return "Community + ALL";;
-  };
-
-
-
-
   const calculateImpacts = useCallback((d) => {
     // parse percent values
     const hardPct = parsePct(d.hard);
     const softPct = parsePct(d.soft);
     const opexPct = parsePct(d.opexCosts);
 
-    console.groupCollapsed(`📊 Calculating impacts for: ${d.creditName || "Unnamed Credit"}`);
+    // console.groupCollapsed(`📊 Calculating impacts for: ${d.creditName || "Unnamed Credit"}`);
     console.log("🔹 Raw Percent Inputs", {
       hardPct,
       softPct,
@@ -111,10 +94,10 @@ export default function Dashboard() {
     console.log(lookupAsset)
 
 
-    console.log("🏷️ Lookup Asset:", lookupAsset);
+    // console.log("🏷️ Lookup Asset:", lookupAsset);
 
     const hardBase = baselineCosts.hard[lookupAsset] ?? 0;
-    const softBase = baselineCosts.soft[normalizeAssetClassForHardAnSoft()] ?? 0;
+    const softBase = baselineCosts.soft[lookupAsset] ?? 0;
     const opexBase = baselineCosts.opex[lookupAsset] ?? 0;
 
     console.log("📌 Baseline Costs", { hardBase, softBase, opexBase });
@@ -146,20 +129,29 @@ export default function Dashboard() {
     const budgetYearAbs = hardAbs + softAbs + opexAbs;
     const budget10Abs = hardAbs + softAbs + 7.36 * opexAbs;
 
-    console.log("📅 Budgets (Absolute)", { budgetYearAbs, budget10Abs });
+    // console.log("📅 Budgets (Absolute)", { budgetYearAbs, budget10Abs });
 
     // percent-level aggregates
     const budgetYearPct = hardPct + softPct + adjustedOpexPct;
     const budget10Pct = hardPct + softPct + 7.36 * adjustedOpexPct;
 
-    console.log("📊 Budgets (Percent)", { budgetYearPct, budget10Pct });
-    console.groupEnd();
+    // console.log("📊 Budgets (Percent)", { budgetYearPct, budget10Pct });
+    // console.groupEnd();
 
-    const position = (budget10Pct) - (0.5 * (d.valuePremium ?? 0));
+    const totalBaseline =
+      (baselineCosts.hard[lookupAsset] ?? 0) +
+      (baselineCosts.soft[lookupAsset] ?? 0) +
+      (baselineCosts.opex[lookupAsset] ?? 0);
 
-    // const position =  (d.budget10YrImpact) - (0.5 * (d.valuePremium ?? 0));
+    // now compute valuePremium correctly
+    const valuePremium =
+      costView === "absolute"
+        ? ((d.valuePremium ?? 0) * totalBaseline ) / 100
+        : (d.valuePremium ?? 0);
 
+    console.log("💎 Value Premium:", valuePremium);
 
+    const position = costView === "absolute" ? (budget10Abs) - (0.5 * (valuePremium ?? 0)) : (budget10Pct) - (0.5 * (valuePremium ?? 0));
 
     return {
       hardPct, softPct, opexPct, adjustedOpexPct,
@@ -169,11 +161,7 @@ export default function Dashboard() {
       position
 
     };
-  }, [applyDSell, costSource]);
-
-
-
-
+  }, [applyDSell, costSource, costView]);
 
   // Track active credits (all enabled by default)
   const [activeCredits, setActiveCredits] = useState(() =>
@@ -184,7 +172,7 @@ export default function Dashboard() {
     () => Object.values(activeCredits).every(v => v === true),
     [activeCredits]
   );
-  // ⬇️ NEW: Keyboard shortcut Shift+X
+  //  NEW: Keyboard shortcut Shift+X
   useEffect(() => {
     const handleKeyDown = (e) => {
       // prevent toggling when typing inside inputs/textareas
@@ -245,13 +233,7 @@ export default function Dashboard() {
           position: imp.position
         };
       });
-  }, [selectedCategory, multiCategories, scenarioFilter, targetFilter, tierFilter, ownershipFilter, calculateImpacts]);
-
-
-
-
-
-
+  }, [selectedCategory, multiCategories, scenarioFilter, targetFilter, tierFilter, ownershipFilter, calculateImpacts])
 
 
   // Calculate totals only for active credits
@@ -346,12 +328,6 @@ export default function Dashboard() {
       [creditName]: !prev[creditName]
     }));
   };
-
-  // Prepare data for scenario comparison modal
-  // const baselineData = leedData.filter(
-  //   (d) => d.leedOrBau === "Baseline Best Practice"
-  // );
-  // const optimizedData = leedData.filter((d) => d.leedOrBau === "LEED-Induced");
 
   const baselineData = leedData
     .filter((d) => d.leedOrBau === "Baseline Best Practice")
