@@ -44,7 +44,6 @@ export default function Dashboard() {
     return parseFloat(s) || 0;
   };
 
-
   const applyDSell = useCallback((ownership, value) => {
     if (!dSellOn) return value;
     switch ((ownership || "").trim()) {
@@ -55,6 +54,15 @@ export default function Dashboard() {
       default: return value;
     }
   }, [dSellOn]);
+
+  const totalBaselineCosts = useMemo(() => {
+  const lookupAsset = "Community + ALL";
+  const hardBase = baselineCosts.hard[lookupAsset] ?? 0;
+  const softBase = baselineCosts.soft[lookupAsset] ?? 0;
+  const opexBase = baselineCosts.opex[lookupAsset] ?? 0;
+
+  return hardBase + softBase + opexBase;
+}, []);
 
   const normalizeAssetClass = (assetClass, costSource) => {
     console.log(assetClass)
@@ -96,8 +104,8 @@ export default function Dashboard() {
 
     // console.log("🏷️ Lookup Asset:", lookupAsset);
 
-    const hardBase = baselineCosts.hard[lookupAsset] ?? 0;
-    const softBase = baselineCosts.soft[lookupAsset] ?? 0;
+    const hardBase = costSource == "RAW" ? baselineCosts.opex[lookupAsset] : baselineCosts.hard[lookupAsset] ?? 0;
+    const softBase = costSource == "RAW" ? baselineCosts.opex[lookupAsset] : baselineCosts.soft[lookupAsset] ?? 0;
     const opexBase = baselineCosts.opex[lookupAsset] ?? 0;
 
     console.log("📌 Baseline Costs", { hardBase, softBase, opexBase });
@@ -113,11 +121,17 @@ export default function Dashboard() {
     // absolute amounts
     const hardAbs = isRefined
       ? (hardPct / 100) * hardBase                // already normalized in parsePct
-      : (d.rawHard != null ? Number(d.rawHard) : (hardPct / 100) * hardBase);
+      : applyDSell(
+        d.ownershipSensitivity,
+        d.rawHard != null ? Number(d.rawHard) : (hardPct / 100) * hardBase
+      );
 
     const softAbs = isRefined
       ? (softPct / 100) * softBase
-      : (d.rawSoft != null ? Number(d.rawSoft) : (softPct / 100) * softBase);
+      : applyDSell(
+        d.ownershipSensitivity,
+        d.rawSoft != null ? Number(d.rawSoft) : (softPct / 100) * softBase
+      );
 
     const opexAbs = isRefined ? (adjustedOpexPct / 100) * opexBase : (adjustedOpexPct / 100) * opexBase;
 
@@ -138,15 +152,11 @@ export default function Dashboard() {
     // console.log("📊 Budgets (Percent)", { budgetYearPct, budget10Pct });
     // console.groupEnd();
 
-    const totalBaseline =
-      (baselineCosts.hard[lookupAsset] ?? 0) +
-      (baselineCosts.soft[lookupAsset] ?? 0) +
-      (baselineCosts.opex[lookupAsset] ?? 0);
 
     // now compute valuePremium correctly
     const valuePremium =
       costView === "absolute"
-        ? ((d.valuePremium ?? 0) * totalBaseline ) / 100
+        ? ((d.valuePremium ?? 0) * totalBaselineCosts ) / 100
         : (d.valuePremium ?? 0);
 
     console.log("💎 Value Premium:", valuePremium);
@@ -158,6 +168,7 @@ export default function Dashboard() {
       hardAbs, softAbs, opexAbs,
       budgetYearAbs, budget10Abs,
       budgetYearPct, budget10Pct,
+      valuePremium,
       position
 
     };
@@ -230,7 +241,8 @@ export default function Dashboard() {
           budget10Pct: imp.budget10Pct,
 
           // position
-          position: imp.position
+          position: imp.position,
+          valuePremium: imp.valuePremium,
         };
       });
   }, [selectedCategory, multiCategories, scenarioFilter, targetFilter, tierFilter, ownershipFilter, calculateImpacts])
@@ -262,7 +274,17 @@ export default function Dashboard() {
     );
 
 
-    const position = activeItems.reduce((sum, d) => sum + (d.position || 0), 0);
+    // const position = activeItems.reduce((sum, d) => sum + (d.position || 0), 0);
+
+    const totalValuePremium = activeItems.reduce(
+      (sum, d) => sum + (d.valuePremium ?? 0),
+      0
+    );
+
+    console.log("Total Value Premium:", totalValuePremium);
+
+    const position = budget10 - 0.5 * totalValuePremium; // <-- apply once at totals level
+
     // const position = budget10 - (0.5 * d.valuePremium)
     console.log("Total Credits:", totalCredits);
     console.log("Hard Costs:", hard);

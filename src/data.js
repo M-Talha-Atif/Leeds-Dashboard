@@ -880,7 +880,7 @@ export const leedData = [
     tier: "Tier 2",
     ownershipSensitivity: "Mixed (Community + Buildings)",
     costSource: "REFINED",
-    assetClass: "Community+All",
+    assetClass: "Community + ALL",
     impactScope: "Project Wide",
   }
 ];
